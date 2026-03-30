@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadwal Pintar</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 10px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.highlight-day {
+    background: #fff59d !important;
+}
+
+.active {
+    background: #ffd54f !important;
+    animation: glow 1s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px #ff9800; }
+    to { box-shadow: 0 0 15px #ff9800; }
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: #333;
+    color: white;
+}
+
+.istirahat {
+    background: #ffe082;
+    font-weight: bold;
+}
+
+.upacara {
+    color: red;
+    font-weight: bold;
+}
+
+/* Semua warna mapel jadi putih */
+.agama, .pjok, .inggris {
+    background: white !important;
+    color: black !important;
+}
+
+.notification {
+    background: #4caf50;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="info">
+    <div>Hari: <b id="hari"></b></div>
+    <div>Jam: <b id="jam"></b></div>
+</div>
+
+<div class="notification" id="notif">
+    Menentukan mapel sekarang...
+</div>
+
+<h2>📚 Jadwal Pelajaran</h2>
+
+<table id="jadwal">
+
+<tr>
+<th>Jam</th>
+<th>Senin</th>
+<th>Selasa</th>
+<th>Rabu</th>
+<th>Kamis</th>
+<th>Jumat</th>
+<th>Sabtu</th>
+</tr>
+
+<tr><td>1</td><td class="upacara">UPACARA</td><td class="upacara">LITERASI</td><td>SENAM AIH</td><td>KESENIAN</td><td>BUDI PEKERTI</td><td>SENAM</td></tr>
+<tr><td>2</td><td>P.PANCASILA</td><td>MTK</td><td>AGAMA</td><td>PJOK</td><td>B.INDO</td><td>GORO</td></tr>
+<tr><td>3</td><td>B.DAERAH</td><td>MTK</td><td>AGAMA</td><td>PJOK</td><td>SENI</td><td>PROJECT</td></tr>
+<tr><td>4</td><td>B.DAERAH</td><td>MTK</td><td>AGAMA</td><td>PJOK</td><td>SENI</td><td>PROJECT</td></tr>
+
+<tr><td colspan="7" class="istirahat">ISTIRAHAT</td></tr>
+
+<tr><td>5</td><td>B.INDO</td><td>P.PANCASILA</td><td>P.PANCASILA</td><td>MTK</td><td></td><td>PROJECT</td></tr>
+<tr><td>6</td><td>B.INDO</td><td>B.INGGRIS</td><td>P.PANCASILA</td><td>MTK</td><td></td><td>PROJECT</td></tr>
+<tr><td>7</td><td>B.INDO</td><td>B.INGGRIS</td><td>P.PANCASILA</td><td>SENI</td><td></td><td>PROJECT</td></tr>
+
+</table>
+
+</div>
+
+<script>
+const hariMap = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+
+const sesi = [
+    {jam:1, start:"07:00", end:"07:35"},
+    {jam:2, start:"07:35", end:"08:10"},
+    {jam:3, start:"08:10", end:"08:45"},
+    {jam:4, start:"08:45", end:"09:20"},
+    {jam:"istirahat", start:"09:20", end:"09:40"},
+    {jam:5, start:"09:40", end:"10:15"},
+    {jam:6, start:"10:15", end:"10:50"},
+    {jam:7, start:"10:50", end:"11:25"}
+];
+
+function getCurrentTime() {
+    const now = new Date();
+    return now.toTimeString().slice(0,5);
+}
+
+function updateJam() {
+    const now = new Date();
+    document.getElementById("jam").innerText = now.toLocaleTimeString();
+}
+
+function getCurrentSesi() {
+    const now = getCurrentTime();
+    return sesi.find(s => now >= s.start && now < s.end);
+}
+
+function highlight() {
+    const table = document.getElementById("jadwal");
+    const today = new Date().getDay();
+    const hari = hariMap[today];
+
+    document.getElementById("hari").innerText = hari;
+
+    let colIndex = [...table.rows[0].cells].findIndex(c => c.innerText === hari);
+
+    // highlight kolom hari
+    for (let row of table.rows) {
+        if (row.cells[colIndex]) {
+            row.cells[colIndex].classList.add("highlight-day");
+        }
+    }
+
+    const sesiNow = getCurrentSesi();
+    const notif = document.getElementById("notif");
+
+    // reset active
+    document.querySelectorAll(".active").forEach(el => el.classList.remove("active"));
+
+    if (sesiNow && sesiNow.jam !== "istirahat") {
+        let rowIndex = sesiNow.jam;
+        let cell = table.rows[rowIndex].cells[colIndex];
+        cell.classList.add("active");
+
+        notif.innerText = "Sekarang: " + cell.innerText + " (Jam " + sesiNow.jam + ")";
+    } else if (sesiNow && sesiNow.jam === "istirahat") {
+        notif.innerText = "⏸️ Sedang ISTIRAHAT";
+    } else {
+        notif.innerText = "📌 Di luar jam pelajaran";
+    }
+}
+
+// update tiap detik
+setInterval(() => {
+    updateJam();
+    highlight();
+}, 1000);
+
+highlight();
+</script>
+
+</body>
+</html>
