@@ -1,210 +1,215 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jadwal Pintar</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f0f2f5;
-    margin: 0;
-    padding: 10px;
-}
-
-.container {
-    max-width: 900px;
-    margin: auto;
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-h2 {
-    text-align: center;
-}
-
-.info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.highlight-day {
-    background: #fff59d !important;
-}
-
-.active {
-    background: #ffd54f !important;
-    animation: glow 1s infinite alternate;
-}
-
-@keyframes glow {
-    from { box-shadow: 0 0 5px #ff9800; }
-    to { box-shadow: 0 0 15px #ff9800; }
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-}
-
-th {
-    background: #333;
-    color: white;
-}
-
-.istirahat {
-    background: #ffe082;
-    font-weight: bold;
-}
-
-.upacara {
-    color: red;
-    font-weight: bold;
-}
-
-/* Semua warna mapel jadi putih */
-.agama, .pjok, .inggris {
-    background: white !important;
-    color: black !important;
-}
-
-.notification {
-    background: #4caf50;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Informasi RESES DPRD Kabupaten Kubu Raya</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
+    .card { border: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .stat-card { border-left: 4px solid #1f4e78; }
+    .badge-status { font-size: 0.85rem; padding: 0.5em 0.8em; }
+    .nav-pills .nav-link.active { background-color: #1f4e78; }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark style="background-color: #1f4e78;">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand" href="#"><i class="fa-solid fa-building-columns me-2"></i>e-RESES KUBU RAYA</a>
+      <span class="navbar-text text-white small d-none d-md-inline">
+        Sistem Penatausahaan Reses & Pokir DPRD
+      </span>
+    </div>
+  </nav>
 
-<div class="info">
-    <div>Hari: <b id="hari"></b></div>
-    <div>Jam: <b id="jam"></b></div>
-</div>
+  <div class="container-fluid px-4 py-4">
+    
+    <!-- Top Alert Banner -->
+    <div class="alert alert-info border-0 shadow-sm d-flex align-items-center mb-4" role="alert">
+      <i class="fa-solid fa-circle-info fa-2x me-3 text-primary"></i>
+      <div>
+        <strong>Landasan Tata Kelola:</strong> Sesuai Perbup Kubu Raya Tahun 2026 & PP No. 12 Tahun 2018. Batas maksimal konstituen per titik reses adalah <strong>165 Orang</strong>.
+      </div>
+    </div>
 
-<div class="notification" id="notif">
-    Menentukan mapel sekarang...
-</div>
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="card stat-card p-3">
+          <div class="text-muted small fw-bold">TOTAL PAGU RESES (DPA)</div>
+          <div class="fs-4 fw-bold text-dark" id="txtPaguDpa">Rp 2.500.000.000</div>
+          <div class="small text-success"><i class="fa-solid fa-chart-line"></i> DPA Tahun 2026</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stat-card p-3 border-left-success" style="border-left-color: #28a745;">
+          <div class="text-muted small fw-bold">REALISASI RESES</div>
+          <div class="fs-4 fw-bold text-dark" id="txtRealisasi">Rp 185.000.000</div>
+          <div class="small text-muted">7.4% Terelisasi</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stat-card p-3 border-left-warning" style="border-left-color: #ffc107;">
+          <div class="text-muted small fw-bold">BATAS KONSTITUEN</div>
+          <div class="fs-4 fw-bold text-dark">165 Orang / Titik</div>
+          <div class="small text-danger"><i class="fa-solid fa-lock"></i> Hard Limit System</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stat-card p-3 border-left-info" style="border-left-color: #17a2b8;">
+          <div class="text-muted small fw-bold">BATAS PELAPORAN</div>
+          <div class="fs-4 fw-bold text-dark">H+7 Kerja</div>
+          <div class="small text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Auto Block Next Reses</div>
+        </div>
+      </div>
+    </div>
 
-<h2>📚 Jadwal Pelajaran</h2>
+    <!-- Main Navigation Tabs -->
+    <ul class="nav nav-pills mb-3" id="mainTab" role="tablist">
+      <li class="nav-item">
+        <button class="nav-link active fw-bold" id="usulan-tab" data-bs-toggle="tab" data-bs-target="#usulan" type="button"><i class="fa-solid fa-file-pen me-2"></i>Pengusulan Reses & Panjar 30%</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link fw-bold" id="spj-tab" data-bs-toggle="tab" data-bs-target="#spj" type="button"><i class="fa-solid fa-receipt me-2"></i>Verifikasi SPJ & BAST (H+6)</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link fw-bold" id="pokir-tab" data-bs-toggle="tab" data-bs-target="#pokir" type="button"><i class="fa-solid fa-scroll me-2"></i>Laporan Pokir & Paripurna</button>
+      </li>
+    </ul>
 
-<table id="jadwal">
+    <div class="tab-content" id="mainTabContent">
+      
+      <!-- TAB 1: FORM PENGUSULAN RESES -->
+      <div class="tab-pane fade show active" id="usulan" role="tabpanel">
+        <div class="row">
+          <div class="col-lg-5 mb-4">
+            <div class="card p-4">
+              <h5 class="fw-bold text-primary mb-3"><i class="fa-solid fa-plus-circle me-2"></i>Form Pengusulan Reses Baru</h5>
+              <form id="formUsulan">
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Anggota DPRD</label>
+                  <select class="form-select" id="id_personil" required>
+                    <option value="2">Ahmad Rizki, S.T. (Dapil 4)</option>
+                    <option value="1">H. Sujiwo, S.E. (Dapil 1)</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Masa Sidang</label>
+                  <select class="form-select" id="masa_sidang" required>
+                    <option value="Masa Sidang I">Masa Sidang I (Tahun 2026)</option>
+                    <option value="Masa Sidang II">Masa Sidang II (Tahun 2026)</option>
+                  </select>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label fw-bold">Titik Lokasi 1 (Maks 165 Konstituen)</label>
+                  <input type="text" class="form-control" id="titik_1" placeholder="Nama Desa / Kecamatan" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label fw-bold">Titik Lokasi 2</label>
+                  <input type="text" class="form-control" id="titik_2" placeholder="Nama Desa / Kecamatan" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Titik Lokasi 3</label>
+                  <input type="text" class="form-control" id="titik_3" placeholder="Nama Desa / Kecamatan" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Total Estimasi Biaya (Rp)</label>
+                  <input type="number" class="form-control" id="total_estimasi" placeholder="45000000" required>
+                  <div class="form-text">Sistem otomatis menghitung Uang Panjar 30%.</div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="fa-solid fa-paper-plane me-2"></i>Kirim Usulan & Minta Panjar 30%</button>
+              </form>
+            </div>
+          </div>
 
-<tr>
-<th>Jam</th>
-<th>Senin</th>
-<th>Selasa</th>
-<th>Rabu</th>
-<th>Kamis</th>
-<th>Jumat</th>
-<th>Sabtu</th>
-</tr>
+          <div class="col-lg-7">
+            <div class="card p-4">
+              <h5 class="fw-bold mb-3"><i class="fa-solid fa-list-check me-2"></i>Daftar Pengusulan Reses Aktif</h5>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>No Usulan</th>
+                      <th>Anggota DPRD</th>
+                      <th>Titik Lokasi</th>
+                      <th>Panjar 30%</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><small class="fw-bold">001/SETWAN-RESES/I/2026</small></td>
+                      <td>Ahmad Rizki, S.T.</td>
+                      <td><small>3 Titik (Dapil 4)</small></td>
+                      <td class="fw-bold text-success">Rp 13.500.000</td>
+                      <td><span class="badge bg-success badge-status">APPROVED_PA</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<tr><td>1</td><td class="upacara">UPACARA</td><td class="upacara">LITERASI</td><td>SENAM AIH</td><td>KESENIAN</td><td>BUDI PEKERTI</td><td>SENAM</td></tr>
-<tr><td>2</td><td>P.PANCASILA</td><td>MTK</td><td>AGAMA</td><td>PJOK</td><td>B.INDO</td><td>GORO</td></tr>
-<tr><td>3</td><td>B.DAERAH</td><td>MTK</td><td>AGAMA</td><td>PJOK</td><td>SENI</td><td>PROJECT</td></tr>
-<tr><td>4</td><td>B.DAERAH</td><td>MTK</td><td>AGAMA</td><td>PJOK</td><td>SENI</td><td>PROJECT</td></tr>
+      <!-- TAB 2: SPJ -->
+      <div class="tab-pane fade" id="spj" role="tabpanel">
+        <div class="card p-4">
+          <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Verifikasi SPJ Realisasi Belanja (Batas H+6)</h5>
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>No SPJ</th>
+                <th>Titik Lokasi</th>
+                <th>Jml Konstituen</th>
+                <th>Realisasi Belanja</th>
+                <th>Status Threshold</th>
+                <th>Verifikasi PPTK</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SPJ-2026-001</td>
+                <td>Desa Kubu</td>
+                <td>150 Orang <span class="badge bg-success">Valid (&le;165)</span></td>
+                <td>Rp 14.200.000</td>
+                <td><span class="badge bg-warning text-dark">LS Direct Vendor (>10 Jt)</span></td>
+                <td><span class="badge bg-primary">VERIFIED_PPTK</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-<tr><td colspan="7" class="istirahat">ISTIRAHAT</td></tr>
+      <!-- TAB 3: POKIR -->
+      <div class="tab-pane fade" id="pokir" role="tabpanel">
+        <div class="card p-4">
+          <h5 class="fw-bold mb-3"><i class="fa-solid fa-award me-2"></i>Laporan Hasil Reses / Pokir untuk Paripurna</h5>
+          <p class="text-muted">Laporan wajib diunggah maksimal H+7 Kerja setelah pelaksanaan reses untuk mencegah pemblokiran sistem.</p>
+          <button class="btn btn-outline-primary mb-3 fw-bold" style="width: fit-content;"><i class="fa-solid fa-file-export me-2"></i>Ekspor Format Paripurna & SIPD</button>
+        </div>
+      </div>
 
-<tr><td>5</td><td>B.INDO</td><td>P.PANCASILA</td><td>P.PANCASILA</td><td>MTK</td><td></td><td>PROJECT</td></tr>
-<tr><td>6</td><td>B.INDO</td><td>B.INGGRIS</td><td>P.PANCASILA</td><td>MTK</td><td></td><td>PROJECT</td></tr>
-<tr><td>7</td><td>B.INDO</td><td>B.INGGRIS</td><td>P.PANCASILA</td><td>SENI</td><td></td><td>PROJECT</td></tr>
+    </div>
+  </div>
 
-</table>
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Konfigurasi URL Google Apps Script Web App
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOz9Tc70sQn04341vrUEbWMxeJ-1Brh3BbjOyKo1kx5eG-Q5lN5BZySJJlUrszSDo/exec";
 
-</div>
-
-<script>
-const hariMap = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-
-const sesi = [
-    {jam:1, start:"07:00", end:"07:35"},
-    {jam:2, start:"07:35", end:"08:10"},
-    {jam:3, start:"08:10", end:"08:45"},
-    {jam:4, start:"08:45", end:"09:20"},
-    {jam:"istirahat", start:"09:20", end:"09:40"},
-    {jam:5, start:"09:40", end:"10:15"},
-    {jam:6, start:"10:15", end:"10:50"},
-    {jam:7, start:"10:50", end:"11:25"}
-];
-
-function getCurrentTime() {
-    const now = new Date();
-    return now.toTimeString().slice(0,5);
-}
-
-function updateJam() {
-    const now = new Date();
-    document.getElementById("jam").innerText = now.toLocaleTimeString();
-}
-
-function getCurrentSesi() {
-    const now = getCurrentTime();
-    return sesi.find(s => now >= s.start && now < s.end);
-}
-
-function highlight() {
-    const table = document.getElementById("jadwal");
-    const today = new Date().getDay();
-    const hari = hariMap[today];
-
-    document.getElementById("hari").innerText = hari;
-
-    let colIndex = [...table.rows[0].cells].findIndex(c => c.innerText === hari);
-
-    // highlight kolom hari
-    for (let row of table.rows) {
-        if (row.cells[colIndex]) {
-            row.cells[colIndex].classList.add("highlight-day");
-        }
-    }
-
-    const sesiNow = getCurrentSesi();
-    const notif = document.getElementById("notif");
-
-    // reset active
-    document.querySelectorAll(".active").forEach(el => el.classList.remove("active"));
-
-    if (sesiNow && sesiNow.jam !== "istirahat") {
-        let rowIndex = sesiNow.jam;
-        let cell = table.rows[rowIndex].cells[colIndex];
-        cell.classList.add("active");
-
-        notif.innerText = "Sekarang: " + cell.innerText + " (Jam " + sesiNow.jam + ")";
-    } else if (sesiNow && sesiNow.jam === "istirahat") {
-        notif.innerText = "⏸️ Sedang ISTIRAHAT";
-    } else {
-        notif.innerText = "📌 Di luar jam pelajaran/ Sudah Pulang";
-    }
-}
-
-// update tiap detik
-setInterval(() => {
-    updateJam();
-    highlight();
-}, 1000);
-
-highlight();
-</script>
-
+    document.getElementById('formUsulan').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("Usulan Reses Berhasil Dikirim! Sistem menghitung Uang Panjar 30% dan menerbitkan Draft STJM & NPD.");
+    });
+  </script>
 </body>
 </html>
