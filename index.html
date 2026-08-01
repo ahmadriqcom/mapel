@@ -1,215 +1,405 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Informasi RESES DPRD Kabupaten Kubu Raya</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>e-RESES DPRD Kabupaten Kubu Raya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
-    .card { border: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .stat-card { border-left: 4px solid #1f4e78; }
-    .badge-status { font-size: 0.85rem; padding: 0.5em 0.8em; }
-    .nav-pills .nav-link.active { background-color: #1f4e78; }
+    :root{
+      --color-primary:#003366;
+      --color-accent:#2ECC71;
+      --color-white:#FFFFFF;
+      --color-light-gray:#E6E8EE;
+      --color-lighter-gray:#F2F6FB;
+      --color-border-dashed:#C9D7EB;
+      --color-ring-focus:#CFE7FF;
+      --font-inter:'Inter',sans-serif;
+      --fs:14px;
+      --radius:12px; --radius-lg:14px;
+      --shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.06);
+      --shadow-focus:0 0 0 3px var(--color-ring-focus);
+    }
+    *{box-sizing:border-box}
+    body{font-family:var(--font-inter);font-size:var(--fs);background:#F8F9FA;margin:0;color:#333;display:flex;min-height:100vh}
+    
+    .topbar{background:var(--color-primary);color:#fff;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:60px;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+    .topbar-left{display:flex;align-items:center;gap:12px}
+    .logo-box{width:32px;height:32px;background:var(--color-accent);color:var(--color-primary);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;}
+    .app-name{font-size:16px;font-weight:700}
+    .app-subtitle{font-size:10px;opacity:.85;margin-top:2px}
+    .sidebar{width:280px;background:var(--color-primary);color:#fff;padding:80px 16px 24px;position:fixed;top:0;bottom:0;overflow:auto}
+    .menu-list{list-style:none;margin:0;padding:0}
+    .menu-item{margin-bottom:4px}
+    .menu-item-link{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;text-decoration:none;color:#fff;opacity:.9}
+    .menu-item-link:hover{background:rgba(255,255,255,.1);opacity:1}
+    .menu-item-link.active{background:var(--color-accent);color:var(--color-primary);font-weight:700;opacity:1}
+    .menu-label{font-size:10px;text-transform:uppercase;letter-spacing:.5px;opacity:.6;margin:16px 0 6px 16px}
+    
+    .main{flex:1;margin-left:280px;padding:24px;margin-top:60px;}
+    @media (max-width:1024px){.main{margin-left:0}}
+    .page-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+    .breadcrumb{font-size:12px;color:#777}
+    .breadcrumb a{color:var(--color-primary);text-decoration:none}
+    .content-card{background:#fff;border:1px solid var(--color-light-gray);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:24px}
+    .card{background:#fff;border:1px solid var(--color-light-gray);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 24px;margin-bottom:24px}
+    .card h2{margin:0 0 12px;color:#0d2c4f;font-size:18px}
+    
+    .form-grid{display:grid;gap:16px;grid-template-columns:repeat(2,1fr)}
+    .form-full{grid-column:1 / -1}
+    @media (max-width:768px){.form-grid{grid-template-columns:1fr}}
+    label{font-weight:500;margin-bottom:6px;display:block}
+    input[type="text"], input[type="number"], input[type="email"],input[type="tel"],textarea, select{border:1px solid var(--color-light-gray);border-radius:8px;padding:10px 12px;outline:none;width:100%; font-family:var(--font-inter); font-size:var(--fs);}
+    input:focus,textarea:focus, select:focus{border-color:#0d5db3;box-shadow:var(--shadow-focus)}
+    textarea{min-height:80px;resize:vertical}
+    .button{padding:10px 16px;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+    .primary{background:var(--color-primary);color:#fff}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--color-light-gray);background:#fff;cursor:pointer}
+    .btn-blue{background:var(--color-primary);color:#fff;border-color:var(--color-primary)}
+    .btn-yellow{background:#F5A623;color:#fff;border-color:#F5A623}
+    .btn-red{background:#E74C3C;color:#fff;border-color:#E74C3C}
+    .toolbar{display:flex;gap:8px;align-items:center}
+    table{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden}
+    th,td{padding:12px 14px;border-bottom:1px solid var(--color-light-gray)}
+    th{background:#0d2c4f;color:#fff;text-align:left}
+    td{font-size:13px;}
+    .section{display:none}
+    .section.active{display:block}
+    .status-badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:500}
+    .status-badge.aktif{background:#e7f7ee;color:#1d7a3b;border:1px solid #bfe7cf}
+    .status-badge.pending{background:#fff8e9;color:#F5A623;border:1px solid #fce8b2}
+    
+    .summary-cards {display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;}
+    @media (max-width:992px){.summary-cards{grid-template-columns: repeat(2, 1fr);}}
+    @media (max-width:576px){.summary-cards{grid-template-columns: 1fr;}}
+    .summary-card {background: var(--color-white); border: 1px solid var(--color-light-gray); border-radius: var(--radius); padding: 20px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow);}
+    .summary-card .icon {width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;}
+    .summary-card .icon.blue {background: #eaf5ff; color: #3b82f6;}
+    .summary-card .icon.green {background: #e7f7ee; color: #1d7a3b;}
+    .summary-card .icon.yellow {background: #fff8e9; color: #F5A623;}
+    .summary-card .icon.red {background: #feeeee; color: #E74C3C;}
+    .summary-card .value {font-size: 20px; font-weight: 700; color: var(--color-primary);}
+    .summary-card .label {font-size: 12px; color: #555;}
+    
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000; opacity: 0; transition: opacity 0.2s;}
+    .modal-overlay.show { display: flex; opacity: 1;}
+    .modal-panel { background: var(--color-white); border-radius: var(--radius-lg); padding: 24px; width: 100%; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transform: scale(0.95); transition: transform 0.2s;}
+    .modal-overlay.show .modal-panel { transform: scale(1); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .modal-header h2 { margin: 0; color: var(--color-primary); font-size: 18px;}
+    .modal-close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #888; }
+    .modal-footer { text-align: right; margin-top: 24px; display: flex; justify-content: flex-end; gap: 8px;}
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .font-bold { font-weight: 700; }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark style="background-color: #1f4e78;">
-    <div class="container-fluid px-4">
-      <a class="navbar-brand" href="#"><i class="fa-solid fa-building-columns me-2"></i>e-RESES KUBU RAYA</a>
-      <span class="navbar-text text-white small d-none d-md-inline">
-        Sistem Penatausahaan Reses & Pokir DPRD
-      </span>
-    </div>
-  </nav>
-
-  <div class="container-fluid px-4 py-4">
-    
-    <!-- Top Alert Banner -->
-    <div class="alert alert-info border-0 shadow-sm d-flex align-items-center mb-4" role="alert">
-      <i class="fa-solid fa-circle-info fa-2x me-3 text-primary"></i>
+  <!-- Topbar Header -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-box"><i class="fa-solid fa-landmark"></i></div>
       <div>
-        <strong>Landasan Tata Kelola:</strong> Sesuai Perbup Kubu Raya Tahun 2026 & PP No. 12 Tahun 2018. Batas maksimal konstituen per titik reses adalah <strong>165 Orang</strong>.
+        <div class="app-name">e-RESES KUBU RAYA</div>
+        <div class="app-subtitle">Sistem Penatausahaan Reses &amp; Pokir DPRD Kabupaten Kubu Raya</div>
       </div>
     </div>
-
-    <!-- Summary Cards -->
-    <div class="row g-3 mb-4">
-      <div class="col-md-3">
-        <div class="card stat-card p-3">
-          <div class="text-muted small fw-bold">TOTAL PAGU RESES (DPA)</div>
-          <div class="fs-4 fw-bold text-dark" id="txtPaguDpa">Rp 2.500.000.000</div>
-          <div class="small text-success"><i class="fa-solid fa-chart-line"></i> DPA Tahun 2026</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card stat-card p-3 border-left-success" style="border-left-color: #28a745;">
-          <div class="text-muted small fw-bold">REALISASI RESES</div>
-          <div class="fs-4 fw-bold text-dark" id="txtRealisasi">Rp 185.000.000</div>
-          <div class="small text-muted">7.4% Terelisasi</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card stat-card p-3 border-left-warning" style="border-left-color: #ffc107;">
-          <div class="text-muted small fw-bold">BATAS KONSTITUEN</div>
-          <div class="fs-4 fw-bold text-dark">165 Orang / Titik</div>
-          <div class="small text-danger"><i class="fa-solid fa-lock"></i> Hard Limit System</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card stat-card p-3 border-left-info" style="border-left-color: #17a2b8;">
-          <div class="text-muted small fw-bold">BATAS PELAPORAN</div>
-          <div class="fs-4 fw-bold text-dark">H+7 Kerja</div>
-          <div class="small text-warning"><i class="fa-solid fa-triangle-exclamation"></i> Auto Block Next Reses</div>
-        </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <button class="button primary" style="padding:8px 12px"><i class="fa fa-bell"></i></button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--color-primary);font-weight:700;">A</div>
+        <span style="font-weight:600">Ahmad Rizki (DPRD)</span>
       </div>
     </div>
+  </header>
 
-    <!-- Main Navigation Tabs -->
-    <ul class="nav nav-pills mb-3" id="mainTab" role="tablist">
-      <li class="nav-item">
-        <button class="nav-link active fw-bold" id="usulan-tab" data-bs-toggle="tab" data-bs-target="#usulan" type="button"><i class="fa-solid fa-file-pen me-2"></i>Pengusulan Reses & Panjar 30%</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link fw-bold" id="spj-tab" data-bs-toggle="tab" data-bs-target="#spj" type="button"><i class="fa-solid fa-receipt me-2"></i>Verifikasi SPJ & BAST (H+6)</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link fw-bold" id="pokir-tab" data-bs-toggle="tab" data-bs-target="#pokir" type="button"><i class="fa-solid fa-scroll me-2"></i>Laporan Pokir & Paripurna</button>
-      </li>
-    </ul>
+  <!-- Sidebar Navigasi Kiri -->
+  <aside class="sidebar">
+    <nav>
+      <ul class="menu-list">
+        <li class="menu-label">Menu Utama</li>
+        <li class="menu-item"><a href="#" data-section="dashboard" class="menu-item-link active"><i class="fa fa-home"></i>Dashboard</a></li>
+      </ul>
+      <ul class="menu-list">
+        <li class="menu-label">Transaksi &amp; Operasional</li>
+        <li class="menu-item"><a href="#" data-section="pengusulan" class="menu-item-link"><i class="fa fa-file-pen"></i>Usulan &amp; Panjar 30%</a></li>
+        <li class="menu-item"><a href="#" data-section="spj" class="menu-item-link"><i class="fa fa-receipt"></i>Verifikasi SPJ (H+6)</a></li>
+        <li class="menu-item"><a href="#" data-section="pokir" class="menu-item-link"><i class="fa fa-scroll"></i>Laporan Pokir &amp; Paripurna</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-    <div class="tab-content" id="mainTabContent">
-      
-      <!-- TAB 1: FORM PENGUSULAN RESES -->
-      <div class="tab-pane fade show active" id="usulan" role="tabpanel">
-        <div class="row">
-          <div class="col-lg-5 mb-4">
-            <div class="card p-4">
-              <h5 class="fw-bold text-primary mb-3"><i class="fa-solid fa-plus-circle me-2"></i>Form Pengusulan Reses Baru</h5>
-              <form id="formUsulan">
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Anggota DPRD</label>
-                  <select class="form-select" id="id_personil" required>
-                    <option value="2">Ahmad Rizki, S.T. (Dapil 4)</option>
-                    <option value="1">H. Sujiwo, S.E. (Dapil 1)</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Masa Sidang</label>
-                  <select class="form-select" id="masa_sidang" required>
-                    <option value="Masa Sidang I">Masa Sidang I (Tahun 2026)</option>
-                    <option value="Masa Sidang II">Masa Sidang II (Tahun 2026)</option>
-                  </select>
-                </div>
-                <div class="mb-2">
-                  <label class="form-label fw-bold">Titik Lokasi 1 (Maks 165 Konstituen)</label>
-                  <input type="text" class="form-control" id="titik_1" placeholder="Nama Desa / Kecamatan" required>
-                </div>
-                <div class="mb-2">
-                  <label class="form-label fw-bold">Titik Lokasi 2</label>
-                  <input type="text" class="form-control" id="titik_2" placeholder="Nama Desa / Kecamatan" required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Titik Lokasi 3</label>
-                  <input type="text" class="form-control" id="titik_3" placeholder="Nama Desa / Kecamatan" required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Total Estimasi Biaya (Rp)</label>
-                  <input type="number" class="form-control" id="total_estimasi" placeholder="45000000" required>
-                  <div class="form-text">Sistem otomatis menghitung Uang Panjar 30%.</div>
-                </div>
-                <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="fa-solid fa-paper-plane me-2"></i>Kirim Usulan & Minta Panjar 30%</button>
-              </form>
-            </div>
+  <!-- Main Content Area -->
+  <main class="main">
+
+    <!-- SECTION 1: DASHBOARD -->
+    <section id="dashboard" class="section active">
+      <div class="page-title">
+        <h1>Dashboard Executive Reses</h1>
+        <div class="breadcrumb"><a href="#">Home</a> &gt; Dashboard</div>
+      </div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="icon blue"><i class="fa fa-wallet"></i></div>
+          <div>
+            <div class="value">Rp 2.5 M</div>
+            <div class="label">Pagu DPA Reses 2026</div>
           </div>
-
-          <div class="col-lg-7">
-            <div class="card p-4">
-              <h5 class="fw-bold mb-3"><i class="fa-solid fa-list-check me-2"></i>Daftar Pengusulan Reses Aktif</h5>
-              <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                  <thead class="table-light">
-                    <tr>
-                      <th>No Usulan</th>
-                      <th>Anggota DPRD</th>
-                      <th>Titik Lokasi</th>
-                      <th>Panjar 30%</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><small class="fw-bold">001/SETWAN-RESES/I/2026</small></td>
-                      <td>Ahmad Rizki, S.T.</td>
-                      <td><small>3 Titik (Dapil 4)</small></td>
-                      <td class="fw-bold text-success">Rp 13.500.000</td>
-                      <td><span class="badge bg-success badge-status">APPROVED_PA</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        </div>
+        <div class="summary-card">
+          <div class="icon green"><i class="fa fa-chart-line"></i></div>
+          <div>
+            <div class="value">Rp 185 Jt</div>
+            <div class="label">Realisasi s.d Saat Ini</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="icon yellow"><i class="fa fa-users"></i></div>
+          <div>
+            <div class="value">165 Orang</div>
+            <div class="label">Batas Konstituen / Titik</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="icon red"><i class="fa fa-clock"></i></div>
+          <div>
+            <div class="value">H+7 Kerja</div>
+            <div class="label">Auto Block Laporan Pokir</div>
           </div>
         </div>
       </div>
 
-      <!-- TAB 2: SPJ -->
-      <div class="tab-pane fade" id="spj" role="tabpanel">
-        <div class="card p-4">
-          <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Verifikasi SPJ Realisasi Belanja (Batas H+6)</h5>
-          <table class="table table-bordered">
-            <thead class="table-light">
+      <div class="content-card" style="margin-top:24px;">
+        <h2><i class="fa fa-history"></i> Real-time Data Usulan dari Google Sheets Backend</h2>
+        <div class="table-container" style="overflow-x:auto;">
+          <table>
+            <thead>
               <tr>
-                <th>No SPJ</th>
-                <th>Titik Lokasi</th>
-                <th>Jml Konstituen</th>
-                <th>Realisasi Belanja</th>
-                <th>Status Threshold</th>
-                <th>Verifikasi PPTK</th>
+                <th>No. Usulan</th>
+                <th>Anggota DPRD</th>
+                <th>Masa Sidang</th>
+                <th>Total Estimasi</th>
+                <th>Panjar (30%)</th>
+                <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>SPJ-2026-001</td>
-                <td>Desa Kubu</td>
-                <td>150 Orang <span class="badge bg-success">Valid (&le;165)</span></td>
-                <td>Rp 14.200.000</td>
-                <td><span class="badge bg-warning text-dark">LS Direct Vendor (>10 Jt)</span></td>
-                <td><span class="badge bg-primary">VERIFIED_PPTK</span></td>
-              </tr>
+            <tbody id="tblDashboardBody">
+              <tr><td colspan="6" class="text-center">Memuat data dari Apps Script...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
+    </section>
 
-      <!-- TAB 3: POKIR -->
-      <div class="tab-pane fade" id="pokir" role="tabpanel">
-        <div class="card p-4">
-          <h5 class="fw-bold mb-3"><i class="fa-solid fa-award me-2"></i>Laporan Hasil Reses / Pokir untuk Paripurna</h5>
-          <p class="text-muted">Laporan wajib diunggah maksimal H+7 Kerja setelah pelaksanaan reses untuk mencegah pemblokiran sistem.</p>
-          <button class="btn btn-outline-primary mb-3 fw-bold" style="width: fit-content;"><i class="fa-solid fa-file-export me-2"></i>Ekspor Format Paripurna & SIPD</button>
-        </div>
+    <!-- SECTION 2: PENGUSULAN RESES -->
+    <section id="pengusulan" class="section">
+      <div class="page-title">
+        <h1>Pengusulan Reses &amp; Uang Panjar 30%</h1>
+        <div class="breadcrumb"><a href="#">Home</a> &gt; Transaksi &gt; Pengusulan</div>
       </div>
+      <div class="content-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h2>Daftar Usulan Reses</h2>
+          <button class="btn btn-blue" id="btnTambahUsulan"><i class="fa fa-plus"></i> Tambah Usulan Baru</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID Usulan</th>
+              <th>No Surat</th>
+              <th>Anggota DPRD</th>
+              <th>Titik Lokasi</th>
+              <th class="text-right">Panjar 30%</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tblUsulanBody">
+            <tr><td colspan="6" class="text-center">Memuat data usulan...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
+  </main>
+
+  <!-- MODAL FORM USULAN -->
+  <div id="modalUsulan" class="modal-overlay">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2>Form Pengusulan Reses &amp; Panjar 30%</h2>
+        <button class="modal-close-btn" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahUsulan">
+          <div class="form-grid">
+            <div class="form-group form-full">
+              <label>Nama Anggota DPRD</label>
+              <input type="text" id="usulanNama" value="Ahmad Rizki, S.T." required>
+            </div>
+            <div class="form-group form-full">
+              <label>Masa Sidang</label>
+              <select id="usulanMasaSidang">
+                <option value="Masa Sidang I">Masa Sidang I (Tahun 2026)</option>
+                <option value="Masa Sidang II">Masa Sidang II (Tahun 2026)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Titik Lokasi 1</label><input type="text" id="usulanTitik1" placeholder="Desa Kubu" required></div>
+            <div class="form-group"><label>Titik Lokasi 2</label><input type="text" id="usulanTitik2" placeholder="Desa Batu Ampar" required></div>
+            <div class="form-group form-full"><label>Titik Lokasi 3</label><input type="text" id="usulanTitik3" placeholder="Desa Terentang Hilir" required></div>
+            <div class="form-group form-full">
+              <label>Total Estimasi Biaya (Rp)</label>
+              <input type="number" id="usulanTotalBiaya" placeholder="45000000" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn" type="button" data-close-modal>Batal</button>
+            <button class="button primary" type="submit" id="btnSubmitUsulan">Kirim &amp; Simpan ke Google Sheets</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
-  <!-- Bootstrap 5 JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Konfigurasi URL Google Apps Script Web App
+    // -------------------------------------------------------------
+    // PASTE GSI / APPS SCRIPT WEB APP DEPLOYMENT URL DI SINI
+    // -------------------------------------------------------------
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOz9Tc70sQn04341vrUEbWMxeJ-1Brh3BbjOyKo1kx5eG-Q5lN5BZySJJlUrszSDo/exec";
 
-    document.getElementById('formUsulan').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert("Usulan Reses Berhasil Dikirim! Sistem menghitung Uang Panjar 30% dan menerbitkan Draft STJM & NPD.");
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // Hash Navigation Router
+      const links = document.querySelectorAll('.menu-item-link[data-section]');
+      const sections = document.querySelectorAll('.section');
+      
+      function activateSection(target){
+        if (!target) return;
+        document.querySelectorAll('.menu-item-link').forEach(m => m.classList.remove('active'));
+        const activeLink = document.querySelector(`.menu-item-link[data-section="${target}"]`);
+        if (activeLink) activeLink.classList.add('active');
+        
+        sections.forEach(s => s.classList.remove('active'));
+        const targetSection = document.getElementById(target);
+        if (targetSection) targetSection.classList.add('active');
+      }
+
+      links.forEach(a => a.addEventListener('click', e => { 
+        e.preventDefault(); 
+        const section = a.getAttribute('data-section');
+        if (section) {
+          window.location.hash = section;
+          activateSection(section);
+        }
+      }));
+
+      // Load Initial Data dari Apps Script
+      loadDataFromGAS();
+
+      // Modal Triggers
+      document.getElementById('btnTambahUsulan')?.addEventListener('click', () => {
+        document.getElementById('modalUsulan').classList.add('show');
+      });
+
+      document.querySelectorAll('[data-close-modal]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.closest('.modal-overlay').classList.remove('show');
+        });
+      });
+
+      // Submit Form ke Google Apps Script via FETCH POST
+      document.getElementById('formTambahUsulan')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btnSubmit = document.getElementById('btnSubmitUsulan');
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = "Mengirim...";
+
+        const payload = {
+          action: "createUsulan",
+          data: {
+            nama_personil: document.getElementById('usulanNama').value,
+            masa_sidang: document.getElementById('usulanMasaSidang').value,
+            titik_1: document.getElementById('usulanTitik1').value,
+            titik_2: document.getElementById('usulanTitik2').value,
+            titik_3: document.getElementById('usulanTitik3').value,
+            total_estimasi: document.getElementById('usulanTotalBiaya').value
+          }
+        };
+
+        fetch(GAS_WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(res => {
+          btnSubmit.disabled = false;
+          btnSubmit.innerText = "Kirim & Simpan ke Google Sheets";
+          
+          if(res.status === "success") {
+            alert(res.message);
+            document.getElementById('modalUsulan').classList.remove('show');
+            loadDataFromGAS(); // Refresh tabel
+          } else {
+            alert("Terjadi kesalahan: " + res.message);
+          }
+        })
+        .catch(err => {
+          btnSubmit.disabled = false;
+          btnSubmit.innerText = "Kirim & Simpan ke Google Sheets";
+          alert("Error Koneksi API: " + err.toString());
+        });
+      });
+
     });
+
+    // Fungsi Fetch GET Data dari Apps Script
+    function loadDataFromGAS() {
+      fetch(GAS_WEB_APP_URL + "?action=getUsulanList")
+        .then(res => res.json())
+        .then(data => {
+          renderTableUsulan(data);
+        })
+        .catch(err => {
+          console.warn("Gagal terhubung ke Apps Script Backend (Menggunakan tampilan Offline Fallback).", err);
+        });
+    }
+
+    function renderTableUsulan(dataList) {
+      const tbodyDash = document.getElementById('tblDashboardBody');
+      const tbodyUsulan = document.getElementById('tblUsulanBody');
+      
+      if (!Array.isArray(dataList) || dataList.length === 0) {
+        tbodyDash.innerHTML = `<tr><td colspan="6" class="text-center">Belum ada data usulan.</td></tr>`;
+        tbodyUsulan.innerHTML = `<tr><td colspan="6" class="text-center">Belum ada data usulan.</td></tr>`;
+        return;
+      }
+
+      let rowsHtml = '';
+      dataList.forEach(item => {
+        const panjarFormatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.panjar_30_pct || 0);
+        const estimasiFormatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.total_estimasi_biaya || 0);
+        
+        rowsHtml += `
+          <tr>
+            <td><b>${item.id_usulan || '-'}</b></td>
+            <td>${item.no_usulan || '-'}</td>
+            <td>${item.id_personil_dprd || '-'}</td>
+            <td>${item.titik_1_lokasi || ''}, ${item.titik_2_lokasi || ''}</td>
+            <td class="text-right font-bold" style="color:#1d7a3b;">${panjarFormatted}</td>
+            <td><span class="status-badge aktif">${item.status_usulan || 'PENDING'}</span></td>
+          </tr>
+        `;
+      });
+
+      tbodyDash.innerHTML = rowsHtml;
+      tbodyUsulan.innerHTML = rowsHtml;
+    }
   </script>
 </body>
 </html>
