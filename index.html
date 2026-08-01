@@ -3,417 +3,485 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>e-RESES DPRD Kabupaten Kubu Raya</title>
-  
-  <!-- Bootstrap 5.3 CSS & FontAwesome Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <title>e-RESES KUBU RAYA</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     :root {
-      --bs-primary: #003366;
-      --bs-success: #2ECC71;
+      --bg-sidebar: #003366;
+      --color-active: #2ECC71;
       --font-inter: 'Inter', sans-serif;
     }
-    body { font-family: var(--font-inter); background-color: #f8f9fa; font-size: 14px; }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-inter);
+      background-color: #F8F9FA;
+      margin: 0;
+      color: #333;
+      font-size: 14px;
+    }
+
+    /* Topbar Header Fixed Top */
+    .topbar {
+      background: #003366;
+      color: #fff;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .logo-box {
+      width: 32px;
+      height: 32px;
+      background: #2ECC71;
+      color: #003366;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .app-name { font-size: 16px; font-weight: 700; line-height: 1.2; }
+    .app-subtitle { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+    /* Sidebar Navigation Left */
+    .sidebar {
+      width: 260px;
+      background: #003366;
+      color: #fff;
+      padding: 80px 16px 24px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .menu-group-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      opacity: 0.6;
+      margin: 18px 0 8px 12px;
+      font-weight: 700;
+    }
+
+    .menu-list { list-style: none; margin: 0; padding: 0; }
+    .menu-item { margin-bottom: 4px; }
     
-    .wrapper { display: flex; width: 100%; align-items: stretch; }
-    #sidebar { min-width: 260px; max-width: 260px; background: #003366; color: #fff; min-height: 100vh; transition: all 0.3s; }
-    #sidebar .sidebar-header { padding: 20px; background: #002244; }
-    #sidebar ul.components { padding: 20px 0; }
-    #sidebar ul li a { padding: 12px 20px; font-size: 14px; display: block; color: rgba(255,255,255,0.85); text-decoration: none; }
-    #sidebar ul li a:hover, #sidebar ul li.active > a { color: #003366; background: #2ECC71; font-weight: 700; border-radius: 6px; margin: 0 10px; }
-    
-    #content { width: 100%; padding: 20px; min-height: 100vh; }
-    .card { border: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px; }
-    .stat-card { border-left: 4px solid #003366; }
+    .menu-item-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #fff;
+      opacity: 0.85;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .menu-item-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+      color: #fff;
+    }
+
+    .menu-item-link.active {
+      background: #2ECC71;
+      color: #003366 !important;
+      font-weight: 700;
+      opacity: 1;
+    }
+
+    /* Main Area */
+    .main-content {
+      margin-left: 260px;
+      padding: 84px 28px 28px;
+      width: calc(100% - 260px);
+    }
+
+    @media (max-width: 992px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; width: 100%; padding: 80px 16px 16px; }
+    }
+
+    .page-title-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .page-title-box h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #222;
+      margin: 0;
+    }
+
+    .breadcrumb-text { font-size: 12px; color: #888; }
+    .breadcrumb-text a { color: #003366; text-decoration: none; }
+
+    /* Summary Cards */
+    .summary-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 1200px) { .summary-cards-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 576px) { .summary-cards-grid { grid-template-columns: 1fr; } }
+
+    .summary-card {
+      background: #ffffff;
+      border: 1px solid #E6E8EE;
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,.04);
+    }
+
+    .summary-card .icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .summary-card .icon-box.blue { background: #EAF5FF; color: #3B82F6; }
+    .summary-card .icon-box.green { background: #E7F7EE; color: #1D7A3B; }
+    .summary-card .icon-box.yellow { background: #FFF8E9; color: #F5A623; }
+    .summary-card .icon-box.red { background: #FEEEEE; color: #E74C3C; }
+
+    .summary-card .val { font-size: 20px; font-weight: 700; color: #003366; line-height: 1.2; }
+    .summary-card .lbl { font-size: 11.5px; color: #666; margin-top: 2px; }
+
+    /* Table & Content Cards */
+    .content-card {
+      background: #ffffff;
+      border: 1px solid #E6E8EE;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,.04);
+    }
+
+    .content-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .content-card-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111;
+      margin: 0;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .custom-table th {
+      background: #003366;
+      color: #ffffff;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .custom-table td {
+      padding: 16px;
+      border-bottom: 1px solid #E6E8EE;
+      font-size: 13px;
+      color: #444;
+    }
+
     .section-pane { display: none; }
     .section-pane.active { display: block; }
-    
-    @media (max-width: 768px) {
-      .wrapper { flex-direction: column; }
-      #sidebar { min-width: 100%; max-width: 100%; min-height: auto; }
-    }
   </style>
 </head>
 <body>
 
-<div class="wrapper">
-  <!-- Sidebar Navigasi Kiri -->
-  <nav id="sidebar">
-    <div class="sidebar-header d-flex align-items-center gap-2">
-      <i class="fa-solid fa-landmark fa-2x text-warning"></i>
+  <!-- Topbar Header -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-box"><i class="fa-solid fa-landmark"></i></div>
       <div>
-        <h6 class="m-0 fw-bold">e-RESES</h6>
-        <small style="font-size: 10px; opacity: 0.8;">Kubu Raya GovTech</small>
+        <div class="app-name">e-RESES KUBU RAYA</div>
+        <div class="app-subtitle">Sistem Penatausahaan Reses &amp; Pokir DPRD Kabupaten Kubu Raya</div>
       </div>
     </div>
+    <div class="d-flex align-items-center gap-3">
+      <i class="fa-regular fa-bell text-white fs-5" style="cursor:pointer;"></i>
+      <div class="d-flex align-items-center gap-2">
+        <div style="width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#003366;font-weight:700;font-size:13px;">A</div>
+        <span class="fw-semibold text-white fs-7">Ahmad Rizki (DPRD)</span>
+      </div>
+    </div>
+  </header>
 
-    <ul class="list-unstyled components">
-      <li class="nav-item">
-        <a href="#dashboard" class="nav-link active" data-section="dashboard"><i class="fa fa-home me-2"></i>Dashboard Executive</a>
-      </li>
-      <li class="nav-item">
-        <a href="#pengusulan" class="nav-link" data-section="pengusulan"><i class="fa fa-file-pen me-2"></i>Usulan &amp; Panjar 30%</a>
-      </li>
-      <li class="nav-item">
-        <a href="#spj" class="nav-link" data-section="spj"><i class="fa fa-receipt me-2"></i>Verifikasi SPJ (H+6)</a>
-      </li>
-      <li class="nav-item">
-        <a href="#pokir" class="nav-link" data-section="pokir"><i class="fa fa-scroll me-2"></i>Laporan Pokir (H+7)</a>
-      </li>
-    </ul>
-  </nav>
+  <!-- Sidebar Left Navigation -->
+  <aside class="sidebar">
+    <nav>
+      <div class="menu-group-label">MENU UTAMA</div>
+      <ul class="menu-list">
+        <li class="menu-item">
+          <a href="#dashboard" data-section="dashboard" class="menu-item-link active"><i class="fa-solid fa-house"></i>Dashboard</a>
+        </li>
+      </ul>
+
+      <div class="menu-group-label">MASTER DATA</div>
+      <ul class="menu-list">
+        <li class="menu-item"><a href="#instansi" data-section="instansi" class="menu-item-link"><i class="fa-solid fa-building-columns"></i>Instansi</a></li>
+        <li class="menu-item"><a href="#wilayah" data-section="wilayah" class="menu-item-link"><i class="fa-solid fa-map-location-dot"></i>Dapil &amp; Wilayah</a></li>
+        <li class="menu-item"><a href="#ssh" data-section="ssh" class="menu-item-link"><i class="fa-solid fa-calculator"></i>SSH &amp; Rekening</a></li>
+        <li class="menu-item"><a href="#dpa" data-section="dpa" class="menu-item-link"><i class="fa-solid fa-wallet"></i>DPA Sub Kegiatan</a></li>
+      </ul>
+
+      <div class="menu-group-label">TRANSAKSI &amp; OPERASIONAL</div>
+      <ul class="menu-list">
+        <li class="menu-item"><a href="#pengusulan" data-section="pengusulan" class="menu-item-link"><i class="fa-solid fa-file-signature"></i>Usulan &amp; Panjar 30%</a></li>
+        <li class="menu-item"><a href="#spj" data-section="spj" class="menu-item-link"><i class="fa-solid fa-receipt"></i>Verifikasi SPJ (H+6)</a></li>
+        <li class="menu-item"><a href="#pokir" data-section="pokir" class="menu-item-link"><i class="fa-solid fa-scroll"></i>Laporan Pokir &amp; Paripurna</a></li>
+      </ul>
+
+      <div class="menu-group-label" style="margin-top:24px;"></div>
+      <ul class="menu-list">
+        <li class="menu-item"><a href="#" class="menu-item-link"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+      </ul>
+    </nav>
+  </aside>
 
   <!-- Main Content Area -->
-  <div id="content">
-    
-    <!-- Topbar Profile -->
-    <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded shadow-sm">
-      <h5 class="m-0 fw-bold text-primary" id="pageTitle">Dashboard Executive Reses</h5>
-      <div class="d-flex align-items-center gap-2">
-        <span class="badge bg-primary p-2">Ahmad Rizki, S.T. (DPRD)</span>
-        <button class="btn btn-sm btn-outline-danger" onclick="loadDataFromGAS()"><i class="fa fa-sync"></i> Refresh</button>
-      </div>
-    </div>
+  <main class="main-content">
 
     <!-- SECTION 1: DASHBOARD -->
-    <div id="dashboard" class="section-pane active">
-      <div class="row g-3 mb-4">
-        <div class="col-md-3">
-          <div class="card p-3 stat-card">
-            <small class="text-muted fw-bold">PAGU DPA RESES 2026</small>
-            <h4 class="fw-bold m-0 text-primary">Rp 2.500.000.000</h4>
+    <section id="dashboard" class="section-pane active">
+      <div class="page-title-box">
+        <h1>Dashboard Executive Reses</h1>
+        <div class="breadcrumb-text"><a href="#">Home</a> &gt; Dashboard</div>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="summary-cards-grid">
+        <div class="summary-card">
+          <div class="icon-box blue"><i class="fa-solid fa-wallet"></i></div>
+          <div>
+            <div class="val">Rp 2.5 M</div>
+            <div class="lbl">Pagu DPA Reses 2026</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="card p-3 stat-card border-success">
-            <small class="text-muted fw-bold">REALISASI S.D SAAT INI</small>
-            <h4 class="fw-bold m-0 text-success">Rp 185.000.000</h4>
+        <div class="summary-card">
+          <div class="icon-box green"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <div class="val">Rp 185 Jt</div>
+            <div class="lbl">Realisasi s.d Saat Ini</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="card p-3 stat-card border-warning">
-            <small class="text-muted fw-bold">MAX KONSTITUEN / LOKASI</small>
-            <h4 class="fw-bold m-0 text-warning">165 Orang</h4>
+        <div class="summary-card">
+          <div class="icon-box yellow"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <div class="val">165 Orang</div>
+            <div class="lbl">Batas Konstituen / Titik</div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="card p-3 stat-card border-danger">
-            <small class="text-muted fw-bold">AUTO BLOCK LAPORAN</small>
-            <h4 class="fw-bold m-0 text-danger">H+7 Kerja</h4>
+        <div class="summary-card">
+          <div class="icon-box red"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <div class="val">H+7 Kerja</div>
+            <div class="lbl">Auto Block Laporan Pokir</div>
           </div>
         </div>
       </div>
 
-      <div class="card p-4">
-        <h6 class="fw-bold text-primary mb-3"><i class="fa fa-database me-2"></i>Data Usulan Reses (Real-time Google Sheets)</h6>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>ID Usulan</th>
-                <th>No Surat</th>
-                <th>Anggota DPRD</th>
-                <th>Lokasi Reses</th>
-                <th class="text-end">Panjar 30%</th>
-                <th>Status</th>
-                <th class="text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tblDashboardBody">
-              <tr><td colspan="7" class="text-center text-muted">Memuat data dari Google Sheets...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 2: PENGUSULAN RESES -->
-    <div id="pengusulan" class="section-pane">
-      <div class="card p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h6 class="fw-bold text-primary m-0"><i class="fa fa-file-signature me-2"></i>Pengelolaan Usulan Reses</h6>
-          <button class="btn btn-primary btn-sm fw-bold" onclick="openModalTambah()"><i class="fa fa-plus me-1"></i> Tambah Usulan Baru</button>
+      <!-- Main Data Table Card -->
+      <div class="content-card">
+        <div class="content-card-header">
+          <i class="fa-solid fa-rotate-left text-dark fs-5"></i>
+          <h2>Real-time Data Usulan dari Google Sheets Backend</h2>
         </div>
         <div class="table-responsive">
-          <table class="table table-bordered align-middle">
-            <thead class="table-light">
+          <table class="custom-table">
+            <thead>
               <tr>
                 <th>ID Usulan</th>
                 <th>No Surat Usulan</th>
                 <th>Anggota DPRD</th>
                 <th>Titik Lokasi</th>
-                <th class="text-end">Panjar 30%</th>
-                <th>Status</th>
-                <th class="text-center" style="width: 120px;">Aksi</th>
+                <th class="text-end">Uang Panjar (30%)</th>
+                <th>Status System</th>
               </tr>
             </thead>
-            <tbody id="tblUsulanBody">
-              <tr><td colspan="7" class="text-center text-muted">Memuat data...</td></tr>
+            <tbody id="tblDashboardBody">
+              <tr>
+                <td colspan="6" class="text-center text-muted py-4">Belum ada data usulan.</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- SECTION 3: SPJ -->
-    <div id="spj" class="section-pane">
-      <div class="card p-4">
-        <h6 class="fw-bold text-primary mb-3"><i class="fa fa-receipt me-2"></i>Verifikasi SPJ Realisasi Lapangan (Batas H+6)</h6>
-        <p class="text-muted small">Sistem secara otomatis memverifikasi bahwa jumlah konstituen $\le 165$ orang per titik lokasi.</p>
-        <button class="btn btn-success btn-sm mb-3" onclick="alert('Fitur SPJ Siap Diisi')"><i class="fa fa-plus me-1"></i> Input Realisasi SPJ</button>
+    <!-- SECTION 2: INSTANSI -->
+    <section id="instansi" class="section-pane">
+      <div class="page-title-box">
+        <h1>Master Data Instansi</h1>
+        <div class="breadcrumb-text"><a href="#">Home</a> &gt; Master Data &gt; Instansi</div>
       </div>
-    </div>
-
-    <!-- SECTION 4: POKIR -->
-    <div id="pokir" class="section-pane">
-      <div class="card p-4">
-        <h6 class="fw-bold text-primary mb-3"><i class="fa fa-scroll me-2"></i>Laporan Hasil Reses / Pokir (Batas H+7)</h6>
-        <p class="text-muted small">Keterlambatan unggah laporan melampaui H+7 akan mengunci akun pengusulan reses berikutnya.</p>
+      <div class="content-card">
+        <h2>Sekretariat DPRD Kabupaten Kubu Raya</h2>
+        <p class="text-muted mt-2">Kode SKPD: 4.01.0.00.0.00.01.0000</p>
       </div>
-    </div>
+    </section>
 
-  </div>
-</div>
-
-<!-- MODAL FORM TAMBAH / EDIT USULAN -->
-<div class="modal fade" id="modalUsulan" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h6 class="modal-title fw-bold" id="modalUsulanTitle">Form Pengusulan Reses</h6>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- SECTION 3: PENGUSULAN RESES -->
+    <section id="pengusulan" class="section-pane">
+      <div class="page-title-box">
+        <h1>Pengusulan Reses &amp; Uang Panjar 30%</h1>
+        <div class="breadcrumb-text"><a href="#">Home</a> &gt; Transaksi &gt; Pengusulan</div>
       </div>
-      <div class="modal-body">
-        <form id="formUsulan">
-          <input type="hidden" id="editIdUsulan" value="">
-          
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label fw-bold">Nama Anggota DPRD</label>
-              <input type="text" class="form-control" id="usulanNama" value="Ahmad Rizki, S.T." required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-bold">Masa Sidang</label>
-              <select class="form-select" id="usulanMasaSidang" required>
-                <option value="Masa Sidang I">Masa Sidang I (Tahun 2026)</option>
-                <option value="Masa Sidang II">Masa Sidang II (Tahun 2026)</option>
-              </select>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label fw-bold">Titik Lokasi 1</label>
-              <input type="text" class="form-control" id="usulanTitik1" placeholder="Desa Kubu" required>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label fw-bold">Titik Lokasi 2</label>
-              <input type="text" class="form-control" id="usulanTitik2" placeholder="Desa Batu Ampar" required>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label fw-bold">Titik Lokasi 3</label>
-              <input type="text" class="form-control" id="usulanTitik3" placeholder="Desa Terentang Hilir" required>
-            </div>
-            <div class="col-md-12">
-              <label class="form-label fw-bold">Total Estimasi Biaya (Rp)</label>
-              <input type="number" class="form-control" id="usulanTotalBiaya" placeholder="45000000" required>
-              <div class="form-text text-success fw-bold">Sistem otomatis menghitung Uang Panjar 30%.</div>
-            </div>
-          </div>
-          
-          <div class="modal-footer mt-4 px-0 pb-0">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary fw-bold" id="btnSubmitForm">Simpan &amp; Minta Panjar 30%</button>
-          </div>
-        </form>
+      <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="m-0">Daftar Pengusulan Reses</h2>
+          <button class="btn btn-primary btn-sm fw-bold" onclick="alert('Form Tambah Usulan')"><i class="fa-solid fa-plus me-1"></i> Tambah Usulan Baru</button>
+        </div>
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID Usulan</th>
+              <th>No Surat Usulan</th>
+              <th>Anggota DPRD</th>
+              <th>Titik Lokasi</th>
+              <th class="text-end">Panjar 30%</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tblUsulanBody">
+            <tr>
+              <td colspan="6" class="text-center text-muted py-4">Belum ada data usulan.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-  </div>
-</div>
+    </section>
 
-<!-- Bootstrap 5.3 Bundle JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </main>
 
-<script>
-  // =========================================================================
-  // URL WEB APP GOOGLE APPS SCRIPT
-  // =========================================================================
-  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOz9Tc70sQn04341vrUEbWMxeJ-1Brh3BbjOyKo1kx5eG-Q5lN5BZySJJlUrszSDo/exec";
+  <script>
+    // =========================================================================
+    // URL GOOGLE APPS SCRIPT WEB APP ENGINE
+    // =========================================================================
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOz9Tc70sQn04341vrUEbWMxeJ-1Brh3BbjOyKo1kx5eG-Q5lN5BZySJJlUrszSDo/exec";
 
-  let modalUsulanInstance;
-  let cachedUsulanData = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sidebar Hash Navigation Logic
+      const links = document.querySelectorAll('.menu-item-link[data-section]');
+      const sections = document.querySelectorAll('.section-pane');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    modalUsulanInstance = new bootstrap.Modal(document.getElementById('modalUsulan'));
+      function activateSection(target) {
+        if (!target) return;
+        document.querySelectorAll('.menu-item-link').forEach(m => m.classList.remove('active'));
+        const activeLink = document.querySelector(`.menu-item-link[data-section="${target}"]`);
+        if (activeLink) activeLink.classList.add('active');
 
-    // Sidebar Hash Router
-    const links = document.querySelectorAll('#sidebar ul li a');
-    links.forEach(a => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        links.forEach(l => l.parentElement.classList.remove('active'));
-        a.parentElement.classList.add('active');
-        
-        const sectionId = a.getAttribute('data-section');
-        document.querySelectorAll('.section-pane').forEach(s => s.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-        document.getElementById('pageTitle').innerText = a.innerText.trim();
+        sections.forEach(s => s.classList.remove('active'));
+        const targetSection = document.getElementById(target);
+        if (targetSection) targetSection.classList.add('active');
+      }
+
+      links.forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const section = a.getAttribute('data-section');
+          if (section) {
+            window.location.hash = section;
+            activateSection(section);
+          }
+        });
       });
+
+      // Load initial data dari Apps Script
+      loadDataFromGAS();
     });
 
-    loadDataFromGAS();
-    document.getElementById('formUsulan').addEventListener('submit', handleFormSubmit);
-  });
-
-  // --- READ (FETCH GET) ---
-  function loadDataFromGAS() {
-    fetch(GAS_WEB_APP_URL + "?action=getUsulanList")
-      .then(res => res.json())
-      .then(res => {
-        if (res.status === "success") {
-          cachedUsulanData = res.data || [];
-          renderTableUsulan(cachedUsulanData);
-        } else {
-          console.error("Error from GAS:", res.message);
-        }
-      })
-      .catch(err => console.warn("Gagal terhubung ke API Google Apps Script:", err));
-  }
-
-  function renderTableUsulan(dataList) {
-    const tbodyDash = document.getElementById('tblDashboardBody');
-    const tbodyUsulan = document.getElementById('tblUsulanBody');
-
-    if (!Array.isArray(dataList) || dataList.length === 0) {
-      const emptyHtml = `<tr><td colspan="7" class="text-center text-muted">Belum ada data usulan di Spreadsheet.</td></tr>`;
-      tbodyDash.innerHTML = emptyHtml;
-      tbodyUsulan.innerHTML = emptyHtml;
-      return;
+    function loadDataFromGAS() {
+      fetch(GAS_WEB_APP_URL + "?action=getUsulanList")
+        .then(res => res.json())
+        .then(res => {
+          if (res.status === "success") {
+            renderTableUsulan(res.data || []);
+          }
+        })
+        .catch(err => console.warn("Menunggu data dari Google Sheets...", err));
     }
 
-    let rowsHtml = '';
-    dataList.forEach(item => {
-      const panjarFormatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.panjar_30_pct || 0);
-      
-      rowsHtml += `
-        <tr>
-          <td><span class="badge bg-secondary">${item.id_usulan || '-'}</span></td>
-          <td><small class="fw-bold">${item.no_usulan || '-'}</small></td>
-          <td>${item.nama_personil || item.id_personil_dprd || '-'}</td>
-          <td><small>${item.titik_1 \vert{}\vert{} item.titik_1_lokasi \vert{}\vert{} ''},${item.titik_2 || item.titik_2_lokasi || ''}</small></td>
-          <td class="text-end fw-bold text-success">${panjarFormatted}</td>
-          <td><span class="badge bg-success">${item.status_usulan || 'PENDING'}</span></td>
-          <td class="text-center">
-            <button class="btn btn-sm btn-warning me-1" onclick="openModalEdit('${item.id_usulan}')" title="Edit Data"><i class="fa fa-pen"></i></button>
-            <button class="btn btn-sm btn-danger" onclick="deleteUsulan('${item.id_usulan}')" title="Hapus Data"><i class="fa fa-trash"></i></button>
-          </td>
-        </tr>
-      `;
-    });
+    function renderTableUsulan(dataList) {
+      const tbodyDash = document.getElementById('tblDashboardBody');
+      const tbodyUsulan = document.getElementById('tblUsulanBody');
 
-    tbodyDash.innerHTML = rowsHtml;
-    tbodyUsulan.innerHTML = rowsHtml;
-  }
-
-  // --- CREATE / UPDATE (FETCH POST) ---
-  function openModalTambah() {
-    document.getElementById('editIdUsulan').value = '';
-    document.getElementById('modalUsulanTitle').innerText = 'Form Pengusulan Reses Baru';
-    document.getElementById('formUsulan').reset();
-    document.getElementById('usulanNama').value = "Ahmad Rizki, S.T.";
-    modalUsulanInstance.show();
-  }
-
-  function openModalEdit(idUsulan) {
-    const item = cachedUsulanData.find(d => d.id_usulan === idUsulan);
-    if (!item) return;
-
-    document.getElementById('editIdUsulan').value = item.id_usulan;
-    document.getElementById('modalUsulanTitle').innerText = 'Edit Data Usulan Reses (' + idUsulan + ')';
-    document.getElementById('usulanNama').value = item.nama_personil || item.id_personil_dprd || '';
-    document.getElementById('usulanMasaSidang').value = item.masa_sidang || 'Masa Sidang I';
-    document.getElementById('usulanTitik1').value = item.titik_1 || item.titik_1_lokasi || '';
-    document.getElementById('usulanTitik2').value = item.titik_2 || item.titik_2_lokasi || '';
-    document.getElementById('usulanTitik3').value = item.titik_3 || item.titik_3_lokasi || '';
-    document.getElementById('usulanTotalBiaya').value = item.total_estimasi || item.total_estimasi_biaya || '';
-    
-    modalUsulanInstance.show();
-  }
-
-  function handleFormSubmit(e) {
-    e.preventDefault();
-    const editId = document.getElementById('editIdUsulan').value;
-    const isEdit = editId !== '';
-    
-    const btnSubmit = document.getElementById('btnSubmitForm');
-    btnSubmit.disabled = true;
-    btnSubmit.innerText = "Menyimpan ke Sheets...";
-
-    const payload = {
-      action: isEdit ? "updateUsulan" : "createUsulan",
-      data: {
-        id_usulan: editId,
-        nama_personil: document.getElementById('usulanNama').value,
-        masa_sidang: document.getElementById('usulanMasaSidang').value,
-        titik_1: document.getElementById('usulanTitik1').value,
-        titik_2: document.getElementById('usulanTitik2').value,
-        titik_3: document.getElementById('usulanTitik3').value,
-        total_estimasi: document.getElementById('usulanTotalBiaya').value
+      if (!Array.isArray(dataList) || dataList.length === 0) {
+        const emptyHtml = `<tr><td colspan="6" class="text-center text-muted py-4">Belum ada data usulan.</td></tr>`;
+        tbodyDash.innerHTML = emptyHtml;
+        tbodyUsulan.innerHTML = emptyHtml;
+        return;
       }
-    };
 
-    fetch(GAS_WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(res => {
-      btnSubmit.disabled = false;
-      btnSubmit.innerText = "Simpan & Minta Panjar 30%";
-      
-      if (res.status === "success") {
-        alert(res.message);
-        modalUsulanInstance.hide();
-        loadDataFromGAS();
-      } else {
-        alert("Gagal menyimpan: " + res.message);
-      }
-    })
-    .catch(err => {
-      btnSubmit.disabled = false;
-      btnSubmit.innerText = "Simpan & Minta Panjar 30%";
-      alert("Error koneksi: " + err.toString());
-    });
-  }
+      let rowsHtml = '';
+      dataList.forEach(item => {
+        const panjarFormatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.panjar_30_pct || 0);
 
-  // --- DELETE (FETCH POST) ---
-  function deleteUsulan(idUsulan) {
-    if (!confirm("Apakah Anda yakin ingin menghapus data usulan " + idUsulan + " dari Spreadsheet?")) return;
+        rowsHtml += `
+          <tr>
+            <td><b>${item.id_usulan || '-'}</b></td>
+            <td>${item.no_usulan || '-'}</td>
+            <td>${item.nama_personil || item.id_personil_dprd || '-'}</td>
+            <td>${item.titik_1 || item.titik_1_lokasi || ''}, ${item.titik_2 || item.titik_2_lokasi || ''}</td>
+            <td class="text-end fw-bold text-success">${panjarFormatted}</td>
+            <td><span class="badge bg-success">${item.status_usulan || 'APPROVED_PA'}</span></td>
+          </tr>
+        `;
+      });
 
-    const payload = {
-      action: "deleteRecord",
-      sheet: "T_Pengusulan_Reses",
-      idColumn: "id_usulan",
-      idValue: idUsulan
-    };
-
-    fetch(GAS_WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(res => {
-      if (res.status === "success") {
-        alert(res.message);
-        loadDataFromGAS();
-      } else {
-        alert("Gagal menghapus: " + res.message);
-      }
-    })
-    .catch(err => alert("Error koneksi: " + err.toString()));
-  }
-</script>
+      tbodyDash.innerHTML = rowsHtml;
+      tbodyUsulan.innerHTML = rowsHtml;
+    }
+  </script>
 </body>
 </html>
