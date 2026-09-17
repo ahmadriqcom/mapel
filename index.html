@@ -1,487 +1,710 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>e-RESES KUBU RAYA</title>
-
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome 6 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Informasi Surat Masuk - Sekretariat Daerah</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js Core -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
   <style>
-    :root {
-      --bg-sidebar: #003366;
-      --color-active: #2ECC71;
-      --font-inter: 'Inter', sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      font-family: var(--font-inter);
-      background-color: #F8F9FA;
-      margin: 0;
-      color: #333;
-      font-size: 14px;
-    }
-
-    /* Topbar Header Fixed Top */
-    .topbar {
-      background: #003366;
-      color: #fff;
-      padding: 0 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 60px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0,0,0,.1);
-    }
-
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .logo-box {
-      width: 32px;
-      height: 32px;
-      background: #2ECC71;
-      color: #003366;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .app-name { font-size: 16px; font-weight: 700; line-height: 1.2; }
-    .app-subtitle { font-size: 11px; opacity: 0.85; margin-top: 2px; }
-
-    /* Sidebar Navigation Left */
-    .sidebar {
-      width: 260px;
-      background: #003366;
-      color: #fff;
-      padding: 80px 16px 24px;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      overflow-y: auto;
-    }
-
-    .menu-group-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      opacity: 0.6;
-      margin: 18px 0 8px 12px;
-      font-weight: 700;
-    }
-
-    .menu-list { list-style: none; margin: 0; padding: 0; }
-    .menu-item { margin-bottom: 4px; }
-    
-    .menu-item-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #fff;
-      opacity: 0.85;
-      font-size: 13.5px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .menu-item-link:hover {
-      background: rgba(255, 255, 255, 0.1);
-      opacity: 1;
-      color: #fff;
-    }
-
-    .menu-item-link.active {
-      background: #2ECC71;
-      color: #003366 !important;
-      font-weight: 700;
-      opacity: 1;
-    }
-
-    /* Main Area */
-    .main-content {
-      margin-left: 260px;
-      padding: 84px 28px 28px;
-      width: calc(100% - 260px);
-    }
-
-    @media (max-width: 992px) {
-      .sidebar { display: none; }
-      .main-content { margin-left: 0; width: 100%; padding: 80px 16px 16px; }
-    }
-
-    .page-title-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .page-title-box h1 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #222;
-      margin: 0;
-    }
-
-    .breadcrumb-text { font-size: 12px; color: #888; }
-    .breadcrumb-text a { color: #003366; text-decoration: none; }
-
-    /* Summary Cards */
-    .summary-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    @media (max-width: 1200px) { .summary-cards-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 576px) { .summary-cards-grid { grid-template-columns: 1fr; } }
-
-    .summary-card {
-      background: #ffffff;
-      border: 1px solid #E6E8EE;
-      border-radius: 12px;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,.04);
-    }
-
-    .summary-card .icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .summary-card .icon-box.blue { background: #EAF5FF; color: #3B82F6; }
-    .summary-card .icon-box.green { background: #E7F7EE; color: #1D7A3B; }
-    .summary-card .icon-box.yellow { background: #FFF8E9; color: #F5A623; }
-    .summary-card .icon-box.red { background: #FEEEEE; color: #E74C3C; }
-
-    .summary-card .val { font-size: 20px; font-weight: 700; color: #003366; line-height: 1.2; }
-    .summary-card .lbl { font-size: 11.5px; color: #666; margin-top: 2px; }
-
-    /* Table & Content Cards */
-    .content-card {
-      background: #ffffff;
-      border: 1px solid #E6E8EE;
-      border-radius: 14px;
-      padding: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,.04);
-    }
-
-    .content-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .content-card-header h2 {
-      font-size: 16px;
-      font-weight: 700;
-      color: #111;
-      margin: 0;
-    }
-
-    .custom-table {
-      width: 100%;
-      border-collapse: collapse;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .custom-table th {
-      background: #003366;
-      color: #ffffff;
-      padding: 12px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      text-align: left;
-    }
-
-    .custom-table td {
-      padding: 16px;
-      border-bottom: 1px solid #E6E8EE;
-      font-size: 13px;
-      color: #444;
-    }
-
-    .section-pane { display: none; }
-    .section-pane.active { display: block; }
+    [x-cloak] { display: none !important; }
   </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col" x-data="suratMasukApp()">
 
-  <!-- Topbar Header -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <div class="logo-box"><i class="fa-solid fa-landmark"></i></div>
-      <div>
-        <div class="app-name">e-RESES KUBU RAYA</div>
-        <div class="app-subtitle">Sistem Penatausahaan Reses &amp; Pokir DPRD Kabupaten Kubu Raya</div>
+  <!-- HEADER -->
+  <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-indigo-700 p-2.5 rounded-lg border border-indigo-500 shadow-inner">
+          <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight leading-tight">Sistem Registrasi Surat Masuk</h1>
+          <p class="text-xs text-indigo-200">Bagian Umum & Protokol &bull; Jalur Disposisi Walikota</p>
+        </div>
       </div>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <i class="fa-regular fa-bell text-white fs-5" style="cursor:pointer;"></i>
-      <div class="d-flex align-items-center gap-2">
-        <div style="width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#003366;font-weight:700;font-size:13px;">A</div>
-        <span class="fw-semibold text-white fs-7">Ahmad Rizki (DPRD)</span>
+
+      <!-- ENVIRONMENT & CONFIG BADGE -->
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2 bg-indigo-950/60 px-3 py-1.5 rounded-full border border-indigo-700/50 text-xs">
+          <span class="w-2.5 h-2.5 rounded-full" :class="useMock ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400'"></span>
+          <span class="font-medium" x-text="useMock ? 'Mode: Mock Runner (Lokal)' : 'Mode: Live GAS Connected'"></span>
+        </div>
+        <button @click="showConfig = !showConfig" class="p-1.5 rounded-md hover:bg-indigo-800 transition text-indigo-200 hover:text-white" title="Konfigurasi API">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Sidebar Left Navigation -->
-  <aside class="sidebar">
-    <nav>
-      <div class="menu-group-label">MENU UTAMA</div>
-      <ul class="menu-list">
-        <li class="menu-item">
-          <a href="#dashboard" data-section="dashboard" class="menu-item-link active"><i class="fa-solid fa-house"></i>Dashboard</a>
-        </li>
-      </ul>
-
-      <div class="menu-group-label">MASTER DATA</div>
-      <ul class="menu-list">
-        <li class="menu-item"><a href="#instansi" data-section="instansi" class="menu-item-link"><i class="fa-solid fa-building-columns"></i>Instansi</a></li>
-        <li class="menu-item"><a href="#wilayah" data-section="wilayah" class="menu-item-link"><i class="fa-solid fa-map-location-dot"></i>Dapil &amp; Wilayah</a></li>
-        <li class="menu-item"><a href="#ssh" data-section="ssh" class="menu-item-link"><i class="fa-solid fa-calculator"></i>SSH &amp; Rekening</a></li>
-        <li class="menu-item"><a href="#dpa" data-section="dpa" class="menu-item-link"><i class="fa-solid fa-wallet"></i>DPA Sub Kegiatan</a></li>
-      </ul>
-
-      <div class="menu-group-label">TRANSAKSI &amp; OPERASIONAL</div>
-      <ul class="menu-list">
-        <li class="menu-item"><a href="#pengusulan" data-section="pengusulan" class="menu-item-link"><i class="fa-solid fa-file-signature"></i>Usulan &amp; Panjar 30%</a></li>
-        <li class="menu-item"><a href="#spj" data-section="spj" class="menu-item-link"><i class="fa-solid fa-receipt"></i>Verifikasi SPJ (H+6)</a></li>
-        <li class="menu-item"><a href="#pokir" data-section="pokir" class="menu-item-link"><i class="fa-solid fa-scroll"></i>Laporan Pokir &amp; Paripurna</a></li>
-      </ul>
-
-      <div class="menu-group-label" style="margin-top:24px;"></div>
-      <ul class="menu-list">
-        <li class="menu-item"><a href="#" class="menu-item-link"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Main Content Area -->
-  <main class="main-content">
-
-    <!-- SECTION 1: DASHBOARD -->
-    <section id="dashboard" class="section-pane active">
-      <div class="page-title-box">
-        <h1>Dashboard Executive Reses</h1>
-        <div class="breadcrumb-text"><a href="#">Home</a> &gt; Dashboard</div>
-      </div>
-
-      <!-- Summary Cards -->
-      <div class="summary-cards-grid">
-        <div class="summary-card">
-          <div class="icon-box blue"><i class="fa-solid fa-wallet"></i></div>
-          <div>
-            <div class="val">Rp 2.5 M</div>
-            <div class="lbl">Pagu DPA Reses 2026</div>
-          </div>
+  <!-- CONFIG MODAL POPUP -->
+  <div x-show="showConfig" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
+    <div @click.away="showConfig = false" class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 border border-slate-200">
+      <h3 class="text-base font-bold text-slate-900 mb-2">Konfigurasi Endpoint Backend</h3>
+      <p class="text-xs text-slate-500 mb-4">Gunakan Live Web App URL dari Google Apps Script Deployment atau aktifkan Mocking untuk simulasi frontend mandiri.</p>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Google Apps Script Web App URL</label>
+          <input type="url" x-model="gasUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
         </div>
-        <div class="summary-card">
-          <div class="icon-box green"><i class="fa-solid fa-chart-line"></i></div>
+
+        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
           <div>
-            <div class="val">Rp 185 Jt</div>
-            <div class="lbl">Realisasi s.d Saat Ini</div>
+            <span class="text-xs font-semibold text-slate-800 block">Mock API Runner (Lokal)</span>
+            <span class="text-[11px] text-slate-500">Simulasikan respons & penyimpanan state di memori browser.</span>
           </div>
-        </div>
-        <div class="summary-card">
-          <div class="icon-box yellow"><i class="fa-solid fa-users"></i></div>
-          <div>
-            <div class="val">165 Orang</div>
-            <div class="lbl">Batas Konstituen / Titik</div>
-          </div>
-        </div>
-        <div class="summary-card">
-          <div class="icon-box red"><i class="fa-solid fa-clock"></i></div>
-          <div>
-            <div class="val">H+7 Kerja</div>
-            <div class="lbl">Auto Block Laporan Pokir</div>
-          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" x-model="useMock" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+          </label>
         </div>
       </div>
 
-      <!-- Main Data Table Card -->
-      <div class="content-card">
-        <div class="content-card-header">
-          <i class="fa-solid fa-rotate-left text-dark fs-5"></i>
-          <h2>Real-time Data Usulan dari Google Sheets Backend</h2>
+      <div class="mt-6 flex justify-end">
+        <button @click="saveConfig()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-sm transition">
+          Simpan & Terapkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- LEFT COLUMN: REGISTRATION FORM (5 COLS) -->
+    <div class="lg:col-span-5 space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="border-b border-slate-100 pb-4 mb-5">
+          <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 bg-indigo-600 rounded-full"></span>
+            <span>Form Registrasi Surat Masuk</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">Verifikasi kelengkapan fisik surat sebelum registrasi resmi.</p>
         </div>
-        <div class="table-responsive">
-          <table class="custom-table">
+
+        <form @submit.prevent="submitSurat()" class="space-y-4">
+
+          <!-- TOGGLE: NOMOR NYELIP / SISIPAN -->
+          <div class="p-3.5 bg-amber-50/70 border border-amber-200 rounded-lg">
+            <label class="flex items-center space-x-2.5 cursor-pointer">
+              <input type="checkbox" x-model="form.is_sisipan" @change="onSisipanToggled()" class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-amber-300">
+              <span class="text-xs font-bold text-amber-900 select-none">Nomor Sisipan / Berkas Susulan ("Nyelip")</span>
+            </label>
+
+            <div x-show="form.is_sisipan" x-transition class="mt-3 pt-3 border-t border-amber-200">
+              <label class="block text-[11px] font-semibold text-amber-900 mb-1">Pilih Nomor Agenda Rujukan Induk <span class="text-rose-500">*</span></label>
+              <select x-model="form.parent_agenda" class="w-full text-xs bg-white border border-amber-300 rounded-md p-2 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                <option value="">-- Pilih Nomor Agenda Induk --</option>
+                <template x-for="agenda in parentAgendas" :key="agenda">
+                  <option :value="agenda" x-text="agenda"></option>
+                </template>
+              </select>
+              <p class="text-[10px] text-amber-700 mt-1.5">Sistem akan menyisipkan indeks .A, .B, dst., tepat di bawah nomor rujukan ini.</p>
+            </div>
+          </div>
+
+          <!-- NO SURAT EKSTERNAL -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Nomor Surat Eksternal <span class="text-rose-500">*</span></label>
+            <input type="text" x-model="form.no_surat_eksternal" placeholder="Contoh: 005/124/DISNAKER/2026" required class="w-full text-xs border border-slate-300 rounded-md p-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          </div>
+
+          <!-- DATES DUAL ROW -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Surat <span class="text-rose-500">*</span></label>
+              <input type="date" x-model="form.tgl_surat" required class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Diterima <span class="text-rose-500">*</span></label>
+              <input type="date" x-model="form.tgl_diterima" required class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- ASAL INSTANSI -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-start">
+            <div class="sm:col-span-1">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Kategori Asal</label>
+              <select x-model="form.asal_instansi" class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="SKPD">SKPD / OPD</option>
+                <option value="Eksternal">Eksternal Swasta/Masyarakat</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Instansi / Lembaga Pengirim <span class="text-rose-500">*</span></label>
+              <input type="text" x-model="form.nama_instansi" placeholder="Contoh: Dinas Tenaga Kerja Kota" required class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- PIC & KONTAK -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Nama PIC / Pengantar <span class="text-rose-500">*</span></label>
+              <input type="text" x-model="form.nama_pic" placeholder="Nama Lengkap" required class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">No. HP / WhatsApp PIC <span class="text-rose-500">*</span></label>
+              <input type="tel" x-model="form.kontak_pic" placeholder="Contoh: 08123456789" required class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- CASCADING DROPDOWN KATEGORI & SUB KATEGORI -->
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Kategori Surat <span class="text-rose-500">*</span></label>
+              <select x-model="form.kategori" @change="onKategoriChanged()" class="w-full text-xs bg-white border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="Umum">Umum / Administratif</option>
+                <option value="Hibah">Hibah</option>
+                <option value="Undangan">Undangan Protokoler</option>
+                <option value="Audiensi">Permohonan Audiensi</option>
+                <option value="Kerjasama">Kerjasama Antar Lembaga</option>
+              </select>
+            </div>
+
+            <!-- SUB-KATEGORI (CONDITIONAL KETIKA HIBAH) -->
+            <div x-show="form.kategori === 'Hibah'" x-transition class="pt-2 border-t border-slate-200">
+              <label class="block text-xs font-semibold text-indigo-900 mb-1">Sub-Kategori Hibah <span class="text-rose-500">*</span></label>
+              <select x-model="form.sub_kategori" class="w-full text-xs bg-white border border-indigo-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <option value="">-- Pilih Sub Kategori --</option>
+                <option value="Beasiswa">Beasiswa Pendidikan</option>
+                <option value="Rumah Ibadah">Rumah Ibadah</option>
+                <option value="Bantuan Ormas">Bantuan Ormas / Komunitas</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PERIHAL (OPSIONAL) -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Perihal / Ringkasan Surat <span class="text-slate-400 font-normal">(Opsional)</span></label>
+            <textarea x-model="form.perihal" rows="2" placeholder="Tuliskan pokok surat jika ada keterangan mendesak..." class="w-full text-xs border border-slate-300 rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+          </div>
+
+          <!-- SUBMIT ACTION BUTTON -->
+          <div class="pt-2">
+            <button type="submit" :disabled="loading" class="w-full flex items-center justify-center py-2.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed">
+              <template x-if="!loading">
+                <span class="flex items-center space-x-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                  </svg>
+                  <span>Registrasi & Kirim ke Lantai 5</span>
+                </span>
+              </template>
+              <template x-if="loading">
+                <span class="flex items-center space-x-2">
+                  <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span x-text="submitStatusText"></span>
+                </span>
+              </template>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: QUEUE MONITORING (7 COLS) -->
+    <div class="lg:col-span-7 space-y-4">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col h-full">
+        
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+          <div>
+            <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+              <span>Antrean Masuk: Lantai 5 (Sekpri / Pimpinan)</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Surat terverifikasi siap untuk diagendakan disposisi Walikota.</p>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button @click="fetchQueue()" :disabled="refreshing" class="p-2 border border-slate-200 hover:bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition disabled:opacity-50">
+              <svg class="w-4 h-4" :class="{'animate-spin': refreshing}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SEARCH FILTER BAR -->
+        <div class="pt-4 pb-2">
+          <div class="relative">
+            <input type="text" x-model="searchQuery" placeholder="Cari nomor agenda, instansi, PIC, atau nomor surat..." class="w-full text-xs pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- TABLE DATA -->
+        <div class="overflow-x-auto flex-1 mt-2">
+          <table class="w-full text-left border-collapse text-xs">
             <thead>
-              <tr>
-                <th>ID Usulan</th>
-                <th>No Surat Usulan</th>
-                <th>Anggota DPRD</th>
-                <th>Titik Lokasi</th>
-                <th class="text-end">Uang Panjar (30%)</th>
-                <th>Status System</th>
+              <tr class="bg-slate-50 border-y border-slate-200 text-slate-600 font-semibold">
+                <th class="py-2.5 px-3">No. Agenda Resmi</th>
+                <th class="py-2.5 px-3">Asal & No. Surat Eksternal</th>
+                <th class="py-2.5 px-3">Kategori</th>
+                <th class="py-2.5 px-3">PIC & Kontak</th>
+                <th class="py-2.5 px-3 text-center">Status Alur</th>
               </tr>
             </thead>
-            <tbody id="tblDashboardBody">
-              <tr>
-                <td colspan="6" class="text-center text-muted py-4">Belum ada data usulan.</td>
-              </tr>
+            <tbody class="divide-y divide-slate-100">
+              
+              <!-- SKELETON LOADER -->
+              <template x-if="refreshing && queueData.length === 0">
+                <template x-for="i in [1, 2, 3, 4]" :key="i">
+                  <tr class="animate-pulse">
+                    <td class="py-3 px-3"><div class="h-4 bg-slate-200 rounded w-28"></div></td>
+                    <td class="py-3 px-3"><div class="h-4 bg-slate-200 rounded w-36 mb-1"></div><div class="h-3 bg-slate-100 rounded w-24"></div></td>
+                    <td class="py-3 px-3"><div class="h-4 bg-slate-200 rounded w-20"></div></td>
+                    <td class="py-3 px-3"><div class="h-4 bg-slate-200 rounded w-24"></div></td>
+                    <td class="py-3 px-3"><div class="h-5 bg-slate-200 rounded-full w-24 mx-auto"></div></td>
+                  </tr>
+                </template>
+              </template>
+
+              <!-- DATA ROWS -->
+              <template x-if="filteredQueue.length > 0">
+                <template x-for="item in filteredQueue" :key="item.id">
+                  <tr class="hover:bg-slate-50/80 transition" :class="item.is_sisipan ? 'bg-amber-50/40 border-l-4 border-amber-400' : ''">
+                    
+                    <!-- NO AGENDA -->
+                    <td class="py-3 px-3 font-mono font-bold text-slate-800">
+                      <div class="flex items-center space-x-1.5">
+                        <span x-text="item.nomor_agenda"></span>
+                      </div>
+                      <template x-if="item.is_sisipan">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-100 text-amber-800 mt-0.5">
+                          Sisipan Induk: <span class="ml-1 font-mono" x-text="item.parent_agenda"></span>
+                        </span>
+                      </template>
+                    </td>
+
+                    <!-- INSTANSI & NO SURAT -->
+                    <td class="py-3 px-3">
+                      <div class="font-semibold text-slate-800" x-text="item.nama_instansi"></div>
+                      <div class="text-[11px] text-slate-500 font-mono" x-text="item.no_surat_eksternal"></div>
+                      <div class="text-[10px] text-slate-400" x-text="'Tgl Surat: ' + item.tgl_surat"></div>
+                    </td>
+
+                    <!-- KATEGORI -->
+                    <td class="py-3 px-3">
+                      <span class="inline-block px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700" x-text="item.kategori"></span>
+                      <template x-if="item.kategori === 'Hibah' && item.sub_kategori">
+                        <div class="text-[10px] font-semibold text-indigo-600 mt-0.5" x-text="'(' + item.sub_kategori + ')'"></div>
+                      </template>
+                    </td>
+
+                    <!-- PIC -->
+                    <td class="py-3 px-3">
+                      <div class="font-medium text-slate-700" x-text="item.nama_pic"></div>
+                      <div class="text-[11px] text-indigo-600 font-mono" x-text="item.kontak_pic"></div>
+                    </td>
+
+                    <!-- STATUS -->
+                    <td class="py-3 px-3 text-center">
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                        <svg class="w-3 h-3 mr-1 text-blue-500 animate-pulse" fill="currentColor" viewBox="0 0 8 8">
+                          <circle cx="4" cy="4" r="3"/>
+                        </svg>
+                        <span x-text="item.status"></span>
+                      </span>
+                    </td>
+
+                  </tr>
+                </template>
+              </template>
+
+              <!-- EMPTY STATE -->
+              <template x-if="!refreshing && filteredQueue.length === 0">
+                <tr>
+                  <td colspan="5" class="py-12 text-center text-slate-400">
+                    <svg class="w-12 h-12 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    <p class="text-xs font-medium">Belum ada surat dalam antrean.</p>
+                  </td>
+                </tr>
+              </template>
+
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
 
-    <!-- SECTION 2: INSTANSI -->
-    <section id="instansi" class="section-pane">
-      <div class="page-title-box">
-        <h1>Master Data Instansi</h1>
-        <div class="breadcrumb-text"><a href="#">Home</a> &gt; Master Data &gt; Instansi</div>
-      </div>
-      <div class="content-card">
-        <h2>Sekretariat DPRD Kabupaten Kubu Raya</h2>
-        <p class="text-muted mt-2">Kode SKPD: 4.01.0.00.0.00.01.0000</p>
-      </div>
-    </section>
-
-    <!-- SECTION 3: PENGUSULAN RESES -->
-    <section id="pengusulan" class="section-pane">
-      <div class="page-title-box">
-        <h1>Pengusulan Reses &amp; Uang Panjar 30%</h1>
-        <div class="breadcrumb-text"><a href="#">Home</a> &gt; Transaksi &gt; Pengusulan</div>
-      </div>
-      <div class="content-card">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="m-0">Daftar Pengusulan Reses</h2>
-          <button class="btn btn-primary btn-sm fw-bold" onclick="alert('Form Tambah Usulan')"><i class="fa-solid fa-plus me-1"></i> Tambah Usulan Baru</button>
+        <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-[11px] text-slate-500">
+          <span>Total Antrean: <strong class="text-slate-700" x-text="filteredQueue.length"></strong> Berkas</span>
+          <span class="italic">Sorting otomatis: Berkas sisipan tersusun presisi di bawah agenda induk.</span>
         </div>
-        <table class="custom-table">
-          <thead>
-            <tr>
-              <th>ID Usulan</th>
-              <th>No Surat Usulan</th>
-              <th>Anggota DPRD</th>
-              <th>Titik Lokasi</th>
-              <th class="text-end">Panjar 30%</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="tblUsulanBody">
-            <tr>
-              <td colspan="6" class="text-center text-muted py-4">Belum ada data usulan.</td>
-            </tr>
-          </tbody>
-        </table>
+
       </div>
-    </section>
+    </div>
 
   </main>
 
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="fixed bottom-4 right-4 z-50 space-y-2 max-w-sm w-full" x-cloak>
+    <template x-for="toast in toasts" :key="toast.id">
+      <div class="p-3.5 rounded-lg shadow-lg border text-xs flex items-start space-x-3 transition-all transform duration-300"
+        :class="{
+          'bg-white border-emerald-300 text-slate-800': toast.type === 'success',
+          'bg-white border-rose-300 text-slate-800': toast.type === 'error',
+          'bg-white border-amber-300 text-slate-800': toast.type === 'warning'
+        }">
+        <div class="flex-shrink-0 mt-0.5">
+          <template x-if="toast.type === 'success'">
+            <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          </template>
+          <template x-if="toast.type === 'error'">
+            <svg class="w-4 h-4 text-rose-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+          </template>
+        </div>
+        <div class="flex-1">
+          <div class="font-bold" x-text="toast.title"></div>
+          <div class="text-[11px] text-slate-600 mt-0.5" x-text="toast.message"></div>
+        </div>
+        <button @click="removeToast(toast.id)" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </template>
+  </div>
+
+  <!-- APPLICATION SCRIPT LOGIC -->
   <script>
-    // =========================================================================
-    // URL GOOGLE APPS SCRIPT WEB APP ENGINE
-    // =========================================================================
-    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyOz9Tc70sQn04341vrUEbWMxeJ-1Brh3BbjOyKo1kx5eG-Q5lN5BZySJJlUrszSDo/exec";
+    //<![CDATA[
+    function suratMasukApp() {
+      return {
+        // App Configurations
+        gasUrl: localStorage.getItem('GAS_EXEC_URL') || '',
+        useMock: localStorage.getItem('GAS_USE_MOCK') !== 'false',
+        showConfig: false,
+        loading: false,
+        refreshing: false,
+        submitStatusText: 'Memvalidasi...',
+        searchQuery: '',
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // Sidebar Hash Navigation Logic
-      const links = document.querySelectorAll('.menu-item-link[data-section]');
-      const sections = document.querySelectorAll('.section-pane');
+        // State Models
+        form: {
+          is_sisipan: false,
+          parent_agenda: '',
+          no_surat_eksternal: '',
+          tgl_surat: new Date().toISOString().split('T')[0],
+          tgl_diterima: new Date().toISOString().split('T')[0],
+          asal_instansi: 'SKPD',
+          nama_instansi: '',
+          nama_pic: '',
+          kontak_pic: '',
+          kategori: 'Umum',
+          sub_kategori: '',
+          perihal: ''
+        },
 
-      function activateSection(target) {
-        if (!target) return;
-        document.querySelectorAll('.menu-item-link').forEach(m => m.classList.remove('active'));
-        const activeLink = document.querySelector(`.menu-item-link[data-section="${target}"]`);
-        if (activeLink) activeLink.classList.add('active');
+        queueData: [],
+        parentAgendas: [],
+        toasts: [],
 
-        sections.forEach(s => s.classList.remove('active'));
-        const targetSection = document.getElementById(target);
-        if (targetSection) targetSection.classList.add('active');
-      }
-
-      links.forEach(a => {
-        a.addEventListener('click', e => {
-          e.preventDefault();
-          const section = a.getAttribute('data-section');
-          if (section) {
-            window.location.hash = section;
-            activateSection(section);
+        // Mock Database Store (Lokal Testing)
+        mockStore: [
+          {
+            id: 'mock-1',
+            sort_key: '00125.000',
+            nomor_agenda: '00125/MASUK/SETDA/2026',
+            is_sisipan: false,
+            parent_agenda: '',
+            no_surat_eksternal: '005/77/DPK/2026',
+            tgl_surat: '2026-09-15',
+            tgl_diterima: '2026-09-16',
+            asal_instansi: 'SKPD',
+            nama_instansi: 'Dinas Perpustakaan & Kearsipan',
+            nama_pic: 'Budi Santoso',
+            kontak_pic: '081298765432',
+            kategori: 'Umum',
+            sub_kategori: '',
+            perihal: 'Laporan Triwulan Akuisisi Arsip',
+            status: 'Lantai 5 (Sekpri/Pimpinan)',
+            created_at: '2026-09-16T08:30:00.000Z'
+          },
+          {
+            id: 'mock-2',
+            sort_key: '00125.001',
+            nomor_agenda: '00125.A/MASUK/SETDA/2026',
+            is_sisipan: true,
+            parent_agenda: '00125/MASUK/SETDA/2026',
+            no_surat_eksternal: '005/77.A/DPK/2026',
+            tgl_surat: '2026-09-16',
+            tgl_diterima: '2026-09-16',
+            asal_instansi: 'SKPD',
+            nama_instansi: 'Dinas Perpustakaan & Kearsipan',
+            nama_pic: 'Budi Santoso',
+            kontak_pic: '081298765432',
+            kategori: 'Umum',
+            sub_kategori: '',
+            perihal: 'Lampiran Susulan Rekap Inventaris Fisik',
+            status: 'Lantai 5 (Sekpri/Pimpinan)',
+            created_at: '2026-09-16T10:15:00.000Z'
           }
-        });
-      });
+        ],
 
-      // Load initial data dari Apps Script
-      loadDataFromGAS();
-    });
+        init() {
+          this.fetchQueue();
+          this.fetchReferences();
+        },
 
-    function loadDataFromGAS() {
-      fetch(GAS_WEB_APP_URL + "?action=getUsulanList")
-        .then(res => res.json())
-        .then(res => {
-          if (res.status === "success") {
-            renderTableUsulan(res.data || []);
+        saveConfig() {
+          localStorage.setItem('GAS_EXEC_URL', this.gasUrl);
+          localStorage.setItem('GAS_USE_MOCK', this.useMock);
+          this.showConfig = false;
+          this.addToast('Konfigurasi Tersimpan', 'Mode runtime disesuaikan.', 'success');
+          this.fetchQueue();
+          this.fetchReferences();
+        },
+
+        onSisipanToggled() {
+          if (!this.form.is_sisipan) {
+            this.form.parent_agenda = '';
+          } else {
+            this.fetchReferences();
           }
-        })
-        .catch(err => console.warn("Menunggu data dari Google Sheets...", err));
+        },
+
+        onKategoriChanged() {
+          if (this.form.kategori !== 'Hibah') {
+            this.form.sub_kategori = '';
+          }
+        },
+
+        get filteredQueue() {
+          if (!this.searchQuery.trim()) {
+            return this.queueData;
+          }
+          const q = this.searchQuery.toLowerCase();
+          return this.queueData.filter(item => 
+            item.nomor_agenda.toLowerCase().includes(q) ||
+            item.nama_instansi.toLowerCase().includes(q) ||
+            item.no_surat_eksternal.toLowerCase().includes(q) ||
+            item.nama_pic.toLowerCase().includes(q)
+          );
+        },
+
+        // HARNESS: Client Boundary & Schema Validator
+        validateClientForm() {
+          if (!this.form.no_surat_eksternal.trim() || this.form.no_surat_eksternal.length < 3) {
+            throw new Error('Nomor Surat Eksternal minimal 3 karakter.');
+          }
+          if (new Date(this.form.tgl_diterima) < new Date(this.form.tgl_surat)) {
+            throw new Error('Tanggal diterima tidak boleh sebelum tanggal surat.');
+          }
+          if (!this.form.nama_instansi.trim()) {
+            throw new Error('Nama Instansi Pengirim wajib diisi.');
+          }
+          if (!this.form.nama_pic.trim()) {
+            throw new Error('Nama PIC / Pengantar wajib diisi.');
+          }
+          const phonePattern = /^(08|\+628)[0-9]{8,13}$/;
+          if (!phonePattern.test(this.form.kontak_pic.trim())) {
+            throw new Error('Format Kontak PIC harus nomor seluler Indonesia valid (08xx atau +628xx).');
+          }
+          if (this.form.kategori === 'Hibah' && !this.form.sub_kategori) {
+            throw new Error('Pilih salah satu Sub-kategori Hibah.');
+          }
+          if (this.form.is_sisipan && !this.form.parent_agenda) {
+            throw new Error('Pilih Nomor Agenda Rujukan untuk Berkas Sisipan.');
+          }
+        },
+
+        // LOOP ENGINE: Network Fetcher dengan Exponential Backoff Auto-Retry
+        async fetchWithBackoff(url, options = {}, retries = 3, delay = 500) {
+          try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+              throw new Error(`HTTP Status ${response.status}`);
+            }
+            return await response.json();
+          } catch (err) {
+            if (retries > 0) {
+              await new Promise(r => setTimeout(r, delay));
+              return this.fetchWithBackoff(url, options, retries - 1, delay * 2);
+            }
+            throw err;
+          }
+        },
+
+        async fetchQueue() {
+          this.refreshing = true;
+          try {
+            if (this.useMock || !this.gasUrl) {
+              await new Promise(r => setTimeout(r, 400));
+              this.queueData = [...this.mockStore].sort((a, b) => 
+                a.sort_key.localeCompare(b.sort_key, undefined, { numeric: true, sensitivity: 'base' })
+              );
+            } else {
+              const url = `${this.gasUrl}?action=get_queue`;
+              const res = await this.fetchWithBackoff(url, { method: 'GET' });
+              if (res.success) {
+                this.queueData = res.data;
+              } else {
+                throw new Error(res.error);
+              }
+            }
+          } catch (err) {
+            this.addToast('Gagal Memuat Antrean', err.message, 'error');
+          } finally {
+            this.refreshing = false;
+          }
+        },
+
+        async fetchReferences() {
+          try {
+            if (this.useMock || !this.gasUrl) {
+              this.parentAgendas = this.mockStore
+                .filter(item => !item.is_sisipan)
+                .map(item => item.nomor_agenda);
+            } else {
+              const url = `${this.gasUrl}?action=get_references`;
+              const res = await this.fetchWithBackoff(url, { method: 'GET' });
+              if (res.success) {
+                this.parentAgendas = res.data;
+              }
+            }
+          } catch (err) {
+            console.warn('Gagal memuat referensi agenda:', err);
+          }
+        },
+
+        async submitSurat() {
+          try {
+            this.validateClientForm();
+          } catch (valErr) {
+            this.addToast('Validasi Gagal', valErr.message, 'warning');
+            return;
+          }
+
+          this.loading = true;
+          this.submitStatusText = 'Mendaftarkan Antrean...';
+
+          try {
+            const payloadData = { ...this.form };
+
+            if (this.useMock || !this.gasUrl) {
+              // Mock Engine Generator
+              await new Promise(r => setTimeout(r, 600));
+              let newAgenda = '';
+              let newSortKey = '';
+
+              if (payloadData.is_sisipan) {
+                const parentBase = payloadData.parent_agenda.split('/')[0];
+                const existingSisipan = this.mockStore.filter(i => i.sort_key.startsWith(parentBase + '.'));
+                const nextSub = existingSisipan.length; // .000 is base, .001 is A, etc.
+                const charCode = String.fromCharCode(65 + nextSub - 1);
+                newAgenda = `${parentBase}.${charCode}/MASUK/SETDA/2026`;
+                newSortKey = `${parentBase}.${String(nextSub).padStart(3, '0')}`;
+              } else {
+                const maxSeq = this.mockStore.reduce((acc, curr) => {
+                  const base = parseInt(curr.sort_key.split('.')[0], 10);
+                  return base > acc ? base : acc;
+                }, 125);
+                const nextSeq = maxSeq + 1;
+                const padded = String(nextSeq).padStart(5, '0');
+                newAgenda = `${padded}/MASUK/SETDA/2026`;
+                newSortKey = `${padded}.000`;
+              }
+
+              const newRecord = {
+                id: 'mock-' + Date.now(),
+                sort_key: newSortKey,
+                nomor_agenda: newAgenda,
+                is_sisipan: Boolean(payloadData.is_sisipan),
+                parent_agenda: payloadData.parent_agenda || '',
+                no_surat_eksternal: payloadData.no_surat_eksternal,
+                tgl_surat: payloadData.tgl_surat,
+                tgl_diterima: payloadData.tgl_diterima,
+                asal_instansi: payloadData.asal_instansi,
+                nama_instansi: payloadData.nama_instansi,
+                nama_pic: payloadData.nama_pic,
+                kontak_pic: payloadData.kontak_pic,
+                kategori: payloadData.kategori,
+                sub_kategori: payloadData.kategori === 'Hibah' ? payloadData.sub_kategori : '',
+                perihal: payloadData.perihal,
+                status: 'Lantai 5 (Sekpri/Pimpinan)',
+                created_at: new Date().toISOString()
+              };
+
+              this.mockStore.push(newRecord);
+              this.addToast('Berhasil Registrasi', `Nomor Agenda: ${newAgenda} berhasil diterbitkan.`, 'success');
+            } else {
+              // Live Web App Post
+              this.submitStatusText = 'Menghubungi GAS (Mengunci LockService)...';
+              const postPayload = {
+                action: 'create_surat',
+                data: payloadData
+              };
+
+              const res = await this.fetchWithBackoff(this.gasUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Menghindari CORS preflight browser
+                body: JSON.stringify(postPayload)
+              });
+
+              if (!res.success) {
+                throw new Error(res.error || 'Terjadi kesalahan sistem backend.');
+              }
+
+              this.addToast('Berhasil Registrasi', `Nomor Agenda: ${res.data.nomor_agenda} berhasil didaftarkan.`, 'success');
+            }
+
+            this.resetForm();
+            await this.fetchQueue();
+            await this.fetchReferences();
+
+          } catch (err) {
+            this.addToast('Gagal Registrasi', err.message, 'error');
+          } finally {
+            this.loading = false;
+          }
+        },
+
+        resetForm() {
+          this.form = {
+            is_sisipan: false,
+            parent_agenda: '',
+            no_surat_eksternal: '',
+            tgl_surat: new Date().toISOString().split('T')[0],
+            tgl_diterima: new Date().toISOString().split('T')[0],
+            asal_instansi: 'SKPD',
+            nama_instansi: '',
+            nama_pic: '',
+            kontak_pic: '',
+            kategori: 'Umum',
+            sub_kategori: '',
+            perihal: ''
+          };
+        },
+
+        addToast(title, message, type = 'success') {
+          const id = Date.now() + Math.random();
+          this.toasts.push({ id, title, message, type });
+          setTimeout(() => this.removeToast(id), 5000);
+        },
+
+        removeToast(id) {
+          this.toasts = this.toasts.filter(t => t.id !== id);
+        }
+      };
     }
-
-    function renderTableUsulan(dataList) {
-      const tbodyDash = document.getElementById('tblDashboardBody');
-      const tbodyUsulan = document.getElementById('tblUsulanBody');
-
-      if (!Array.isArray(dataList) || dataList.length === 0) {
-        const emptyHtml = `<tr><td colspan="6" class="text-center text-muted py-4">Belum ada data usulan.</td></tr>`;
-        tbodyDash.innerHTML = emptyHtml;
-        tbodyUsulan.innerHTML = emptyHtml;
-        return;
-      }
-
-      let rowsHtml = '';
-      dataList.forEach(item => {
-        const panjarFormatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.panjar_30_pct || 0);
-
-        rowsHtml += `
-          <tr>
-            <td><b>${item.id_usulan || '-'}</b></td>
-            <td>${item.no_usulan || '-'}</td>
-            <td>${item.nama_personil || item.id_personil_dprd || '-'}</td>
-            <td>${item.titik_1 || item.titik_1_lokasi || ''}, ${item.titik_2 || item.titik_2_lokasi || ''}</td>
-            <td class="text-end fw-bold text-success">${panjarFormatted}</td>
-            <td><span class="badge bg-success">${item.status_usulan || 'APPROVED_PA'}</span></td>
-          </tr>
-        `;
-      });
-
-      tbodyDash.innerHTML = rowsHtml;
-      tbodyUsulan.innerHTML = rowsHtml;
-    }
+    //]]>
   </script>
 </body>
 </html>
